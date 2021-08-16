@@ -10,8 +10,9 @@
 <body>
 	<header></header>
 	<main class="content">
-		
-		<form action="#" method="POST" id="login">
+        @include('errors')
+		<form action="{{ route('login') }}" method="POST" id="login">
+            @csrf
 			<h2>Вход</h2>
 			<div>Email</div>
 			<div><input type="text" name="email"></div>
@@ -27,7 +28,7 @@
 					<a href="#">Забыли пароль?</a>
 				</div>
 			</div>
-			<div><a href="registration.html" class="btn">Регистрация</a></div>
+			<div><a href="{{ route('registrationForm') }}" class="btn">Регистрация</a></div>
 		</form>
 		<div class="progressbar-circle2-wrapper">
 			<defs>

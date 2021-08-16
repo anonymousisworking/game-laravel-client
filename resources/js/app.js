@@ -1,9 +1,13 @@
 import { createApp } from 'vue'
-import App from './components/App.vue'
+import Game from './components/Game.vue'
+import Game from './components/GameHeader'
 
-const app = createApp(App)
+const app = createApp(Game)
 
-app.component('AppMain', App)
+app
+    .component('AppMain', Game)
+    .component('GameHeader', GameHeader)
+    .component('GameFooter', GameFooter)
 	.mount('#app')
 
 // require('./bootstrap');
