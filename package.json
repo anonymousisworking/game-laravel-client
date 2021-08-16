@@ -7,12 +7,22 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "serve": "php artisan serve --host=fightworld.loc --port=8080 & npm run watch",
+        "serve1": "php artisan serve --host=fightworld.loc --port=8080 & npm run watch"
     },
     "devDependencies": {
+        "@vue/compiler-sfc": "^3.2.2",
         "axios": "^0.21",
+        "browser-sync": "^2.27.5",
+        "browser-sync-webpack-plugin": "^2.3.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
-        "postcss": "^8.1.14"
+        "node-sass": "^6.0.1",
+        "postcss": "^8.1.14",
+        "sass": "^1.37.5",
+        "sass-loader": "^12.1.0",
+        "vue": "^3.0.2",
+        "vue-loader": "^16.0.0-beta.9"
     }
 }

@@ -13,3 +13,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function() {
+	// return response()
+			// ->json([
+				// 'name' => 'hom',
+				// 'city' => 'Odessa'
+			// ])
+			// // ->header('Content-type', 'application/json')
+			// ->header('Access-Control-Allow-Origin', '*');
+			
+	return view('index');
+});
+
+
+Route::get('/test', function() {
+	return response()
+			->json([
+				'name' => 'hom',
+				'city' => 'Odessa'
+			])
+			->header('Content-type', 'application/json');
+			// ->header('Access-Control-Allow-Origin', '*');
+			
+});
