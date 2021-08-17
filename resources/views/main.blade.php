@@ -8,7 +8,9 @@
     <title>Fightworld</title>
 </head>
 <body>
-    <div id="game"><Game /></div>
+    <div id="game">
+        <game></game>
+    </div>
 
 	<script src="{{ mix('/js/app.js') }}"></script>
 {{--<script src="js/less.min.js"></script>--}}

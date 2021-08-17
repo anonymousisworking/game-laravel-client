@@ -10,16 +10,7 @@ class GameController extends Controller
 {
     public function index()
     {
-        if (Auth::check()) {
-            return redirect()->route('main');
-        }
-        
-        return view('index');
-    }
-
-    public function main()
-    {
-        return view('main');
+        return view(Auth::check() ? 'main' : 'index');
     }
 
     public function location()

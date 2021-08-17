@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
 		    [
 		    	'login' => 'Admin', 
 		   		'email' => 'admin@game.test', 
-		   		'password' => '$2y$10\$O8h8IC79WyN0cHQUHmeGlujPiDe.26U3hxGhnRngmMZ2PeIIxfcFe', 
+		   		'password' => '$2y$10$O8h8IC79WyN0cHQUHmeGlujPiDe.26U3hxGhnRngmMZ2PeIIxfcFe', 
 		   		'sex' => 0
 		   	],
 		]);

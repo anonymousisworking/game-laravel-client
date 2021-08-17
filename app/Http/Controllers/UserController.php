@@ -20,7 +20,7 @@ class UserController extends Controller
         // $user = User::where('email', $request->get('email'))->firstOrFail();
         // if (password_verify($request->get('password'), $user->password)) { Auth::login($user);
         if (Auth::attempt($request->only('email', 'password'), $request->get('remember_me'))) {
-            return redirect()->route('main');
+            return redirect()->route('index');
         }
 
         return redirect()->back()->with('_errors', 'Email or password is wrong');

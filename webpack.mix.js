@@ -17,8 +17,8 @@ mix
     .disableNotifications()
 	.browserSync('fightworld.loc')
     // .postCss('resources/css/app.css', 'public/css', [])
-    .sass('resources/css/index.scss', 'public/css', [])
+    // .sass('resources/css/index.scss', 'public/css', [])
     .sass('resources/css/main.scss', 'public/css', [])
-    .copy('resources/css/fontello.css', 'public/fontello.css')
+    // .copy('resources/css/fontello.css', 'public/fontello.css')
     .options({ processCssUrls: false})
 ;

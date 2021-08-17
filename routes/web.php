@@ -25,18 +25,15 @@ Route::get('/test', function() {
 			// ->header('Access-Control-Allow-Origin', '*');
 });
 
+Route::get('/', [GameController::class, 'index'])->name('index');
 
 Route::group(['middleware' => 'guest'], function() {
-    Route::get('/', [GameController::class, 'index'])->name('index');
     Route::post('/login', [UserController::class, 'login'])->name('login');
     Route::get('/registration', [UserController::class, 'registrationForm'])->name('registrationForm');
     Route::post('/registration', [UserController::class, 'registration'])->name('registration');
 });
 
 Route::group(['middleware' => 'auth'], function() {
-    Route::get('/main', [GameController::class, 'main'])->name('main');
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/init', [GameController::class, 'init']);
-    // Route::get('/user', function() {return json_encode(Auth::user());});
-//    Route::get('/location', [GameController::class, 'location'])->name('location');
 });

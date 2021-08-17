@@ -5,7 +5,8 @@ export default createStore({
     state: {
         user: {},
         location: {},
-        closest_locations: {},
+        closestLocations: {},
+        activeLocation: false,
         csrf: ''
     },
 
@@ -18,15 +19,19 @@ export default createStore({
             state.location = location;
         },
 
-        SET_CLOSEST_LOCATIONS(state, closest_locations) {
-            let closest_locations_by_type = {};
-            for (let closest_location of closest_locations) {
-                if (typeof closest_locations_by_type[closest_location.type] == 'undefined') {
-                    closest_locations_by_type[closest_location.type] = [];
+        SET_CLOSEST_LOCATIONS(state, closestLocations) {
+            let closestLocationByType = {};
+            for (let closest_location of closestLocations) {
+                if (typeof closestLocationByType[closest_location.type] == 'undefined') {
+                    closestLocationByType[closest_location.type] = [];
                 }
-                closest_locations_by_type[closest_location.type].push(closest_location);
+                closestLocationByType[closest_location.type].push(closest_location);
             }
-            state.closest_locations = closest_locations_by_type;
+            state.closestLocations = closestLocationByType;
+        },
+
+        SET_ACTIVE_LOCATION(state, activeLocation) {
+            state.activeLocation = activeLocation;
         },
 
         SET_CSRF(state, csrf) {
@@ -47,8 +52,12 @@ export default createStore({
             return state.location;
         },
 
-        closest_locations(state) {
-            return state.closest_locations;
+        closestLocations(state) {
+            return state.closestLocations;
+        },
+
+        activeLocation(state) {
+            return state.activeLocation;
         }
     },
 

@@ -12,7 +12,7 @@
         "serve1": "php artisan serve --host=fightworld.loc --port=8080 & npm run watch"
     },
     "devDependencies": {
-        "@vue/compiler-sfc": "^3.2.2",
+        "@vue/compiler-sfc": "^3.2.4",
         "axios": "^0.21",
         "browser-sync": "^2.27.5",
         "browser-sync-webpack-plugin": "^2.3.0",
@@ -20,9 +20,9 @@
         "lodash": "^4.17.19",
         "node-sass": "^6.0.1",
         "postcss": "^8.1.14",
-        "sass": "^1.37.5",
+        "sass": "^1.38.0",
         "sass-loader": "^12.1.0",
-        "vue": "^3.0.2",
+        "vue": "^3.2.4",
         "vue-loader": "^16.5.0",
         "vuex": "^4.0.2"
     }
