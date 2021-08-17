@@ -1,23 +1,29 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Game</title>
-</head>
-<body>
-
-</body>
-</html>
+<template>
+    <game-header></game-header>
+    <location-wrapper></location-wrapper>
+    <game-footer></game-footer>
+</template>
 
 <script>
-export default {
+import { mapActions, mapMutations } from 'vuex'
 
+export default {
+	data: () => ({
+		
+	}),
+
+	methods: {
+		...mapActions(['init']),
+		...mapMutations(['SET_CSRF']),
+	},
+
+	created() {
+		this.init();
+		this.SET_CSRF(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+	}
 }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+	
 </style>

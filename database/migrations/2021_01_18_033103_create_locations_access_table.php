@@ -17,7 +17,6 @@ class CreateLocationsAccessTable extends Migration
             $table->id();
             $table->unsignedBigInteger('loc_id')->index();
             $table->unsignedBigInteger('access_loc_id');
-            $table->timestamps();
         });
     }
 

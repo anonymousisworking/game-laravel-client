@@ -1,15 +1,27 @@
 <template>
     <div id="location-wrapper">
         <div class="location">
-            <div class="name"></div>
-            <div class="svg-wrapper"><svg></svg></div>
-            <img src="" class="map">
+            <div class="name">{{ location.name }}</div>
+            <div class="svg-wrapper">
+                <svg ref="svg">
+                <template v-for="(coords, index) in location.locations_coords" :key="index">
+                    <polygon :class="'loc-' + index" :points="coords" />
+                 </template>
+                </svg>
+            </div>
+            <img src="" ref="image" class="map">
         </div>
 
         <div class="location-select">
             <div class="location-block locations">
                 <div class="title">Локации</div>
-                <div class="list"></div>
+                <div class="list">
+                    <div 
+                        v-for="location in closest_locations.location"
+                        class="link"
+                        :class="'loc-' + location.id"
+                    >{{ location.name }}</div>
+                </div>
             </div>
 
             <div class="location-block objects">
@@ -35,8 +47,33 @@
 </template>
 
 <script>
+
+import { mapGetters } from 'vuex'
+
 export default {
-    name: "location-wrapper"
+    name: "location-wrapper",
+
+    methods: {
+
+    },
+
+    computed: {
+        ...mapGetters([
+            'location',
+            'closest_locations',
+        ])
+    },
+
+    watch: {
+        location(location, oldLocation) {
+            this.$refs.image.src = 'img/locations/' + location.image;
+        }
+    },
+
+
+    mounted() {
+
+    }
 }
 </script>
 

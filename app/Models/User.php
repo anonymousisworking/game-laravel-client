@@ -40,4 +40,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function add($fields, $ip)
+    {
+        $user = new static($fields);
+        $user->last_ip = $user->reg_ip = $ip;
+        $user->generatePassword($fields['password']);
+        $user->save();
+        
+        return $user;
+    }
+
+    public function generatePassword($password)
+    {
+        $this->password = bcrypt($password);
+    }
 }

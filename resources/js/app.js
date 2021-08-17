@@ -1,13 +1,18 @@
 import { createApp } from 'vue'
+import store from './store'
 import Game from './components/Game.vue'
-import Game from './components/GameHeader'
+import GameHeader from './components/GameHeader'
+import GameFooter from './components/GameFooter'
+import LocationWrapper from './components/LocationWrapper'
 
-const app = createApp(Game)
+const game = createApp({})
 
-app
-    .component('AppMain', Game)
+game
+    .use(store)
+    .component('Game', Game)
     .component('GameHeader', GameHeader)
     .component('GameFooter', GameFooter)
-	.mount('#app')
+    .component('LocationWrapper', LocationWrapper)
+	.mount('#game')
 
 // require('./bootstrap');

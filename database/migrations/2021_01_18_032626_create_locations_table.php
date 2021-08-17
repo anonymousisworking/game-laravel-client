@@ -16,9 +16,9 @@ class CreateLocationsTable extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('type');
-            $table->string('image');
-            $table->string('coords');
+            $table->string('type')->nullable();
+            $table->string('image')->nullable();
+            $table->json('locations_coords')->nullable();
             $table->timestamps();
         });
     }

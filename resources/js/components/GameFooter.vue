@@ -24,18 +24,28 @@
                 </form>
                 <div><img src="img/chat/chat_clear.gif" title="очистить чат" id="chat-clear"></div>
                 <div><img src="img/chat/chat.ico" title="Смайлы"></div>
-                <form action="/logout" method="post" id="logout"><button name="logout">Выход</button></form>
+                <form action="/logout" method="post" id="logout">
+                    <input type="hidden" name="_token" :value="csrf">
+                    <button name="logout">Выход</button>
+                </form>
             </div>
         </div>
-    </footer>s
+    </footer>
 </template>
 
 <script>
+
+import { mapGetters } from 'vuex'
+
 export default {
-name: "GameFooter"
+    name: "GameFooter",
+
+    computed: mapGetters([
+        'csrf'
+    ]),
 
     created() {
-        console.log(1)
+        // console.log(1)
     }
 }
 </script>

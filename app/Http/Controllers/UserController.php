@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -14,7 +15,11 @@ class UserController extends Controller
             'password'  => 'required'
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
+        // dd($request->all());
+
+        // $user = User::where('email', $request->get('email'))->firstOrFail();
+        // if (password_verify($request->get('password'), $user->password)) { Auth::login($user);
+        if (Auth::attempt($request->only('email', 'password'), $request->get('remember_me'))) {
             return redirect()->route('main');
         }
 
@@ -38,5 +43,12 @@ class UserController extends Controller
         User::add($request->all(), $request->getClientIp());
 
         return redirect()->route('game');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect('/');
     }
 }
