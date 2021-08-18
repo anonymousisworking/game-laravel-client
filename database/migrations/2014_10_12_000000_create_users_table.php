@@ -73,10 +73,10 @@ class CreateUsersTable extends Migration
             // $table->tinyInteger('bot')->default(0)->unsigned();
             $table->boolean('bot')->unsigned()->default(0)->index();
             $table->integer('dungeon')->default(0)->unsigned()->index();
-            $table->dateTime('birthday')->nullable();
+            $table->dateTime('birthday')->default(DB::raw('CURRENT_TIMESTAMP'))->nullable();
 
             $table->rememberToken();
-            $table->timestamps();
+//            $table->timestamps();
         });
 
         // DB::statement('CREATE INDEX description_idx ON Customers (description(100));');
