@@ -17434,10 +17434,86 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "GameHeader",
-  computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['user'])
+  data: function data() {
+    return {
+      hpLineStyle: {}
+    };
+  },
+  methods: _objectSpread({
+    hpRegeneration: function hpRegeneration() {
+      var _this = this;
+
+      var curHp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 200;
+      var maxHp = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 800;
+      var lastRestore = arguments.length > 2 ? arguments[2] : undefined;
+
+      function getTimeSeconds() {
+        return new Date().getTime() / 1000;
+      }
+
+      var hp = function hp(curHp, maxHp, lastRestore) {
+        // console.log(1, this.user);return;
+        return function () {
+          var time = getTimeSeconds();
+          var limeLeft = time - lastRestore;
+          lastRestore = time;
+          curHp = curHp + limeLeft * restoreOneSecond; // console.log(curHp, limeLeft, lastRestore, maxHp);
+
+          if (curHp >= maxHp) {
+            curHp = maxHp;
+            endRestoreFlag = true;
+          }
+
+          _this.user.curhp = Math.round(+curHp);
+          _this.user.last_restore = time;
+
+          _this.SET_USER(_this.user);
+
+          var curHpInPercent = curHp / maxHp * 100;
+          var color = curHpInPercent < 33 ? '#993e3e' : curHpInPercent < 66 ? '#dddd42' : 'green';
+          _this.hpLineStyle.width = curHp / maxHp * 100 + '%';
+          _this.hpLineStyle.backgroundColor = color;
+          return endRestoreFlag;
+        };
+      };
+
+      var restoreSpeed = 1;
+      var minutesToMaxHp = 5;
+      var renderSpeed = 1 / 2;
+      var endRestoreFlag = false;
+      var restoreOneSecond = maxHp / (minutesToMaxHp / restoreSpeed) / 60;
+      var HpRestore = hp(curHp, maxHp, lastRestore);
+      var stop = HpRestore();
+
+      if (!stop) {
+        var timer = setInterval(function () {
+          if (HpRestore()) {
+            clearInterval(timer);
+          }
+        }, 1000 / renderSpeed);
+      }
+    }
+  }, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)(['SET_USER'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['user', 'dbLog'])), {}, {
+    style: function style() {}
+  }),
+  mounted: function mounted() {
+    var _this2 = this;
+
+    setTimeout(function () {
+      // console.log(this.user);
+      _this2.hpRegeneration(_this2.user.curhp, _this2.user.maxhp, _this2.user.last_restore);
+    }, 1000);
+  }
 });
 
 /***/ }),
@@ -17506,7 +17582,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "LocationLink",
   props: ['closestLocations', 'type'],
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)(['SET_ACTIVE_LOCATION'])),
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)(['SET_ACTIVE_LOCATION'])), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['changeLocation'])), {}, {
+    changeLocation1: function changeLocation1(locationId) {
+      this.$store.dispatch('changeLocation', locationId);
+    }
+  }),
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['activeLocation']))
 });
 
@@ -17650,25 +17730,43 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 var _hoisted_6 = {
   "class": "login"
 };
-
-var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_7 = {
   "class": "hp-wrapper"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+};
+var _hoisted_8 = {
   "class": "hp-back"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "hp-line"
-})]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+};
+var _hoisted_9 = {
   "class": "hp"
-})], -1
+};
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"top-panel flex\"><div><img src=\"img/other/pack.jpg\" title=\"Рюкзак\"></div><div><img src=\"img/other/location.jpg\" title=\"Локация\"></div><div><img src=\"img/other/fight.jpg\" title=\"Бои\"></div><div><img src=\"img/other/quest.jpg\" title=\"Квесты\"></div><div><img src=\"img/other/info.jpg\" title=\"Анкета\"></div></div>", 1);
+
+var _hoisted_11 = {
+  id: "dblog"
+};
+
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1
 /* HOISTED */
 );
-
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"top-panel flex\"><div><img src=\"img/other/pack.jpg\" title=\"Рюкзак\"></div><div><img src=\"img/other/location.jpg\" title=\"Локация\"></div><div><img src=\"img/other/fight.jpg\" title=\"Бои\"></div><div><img src=\"img/other/quest.jpg\" title=\"Квесты\"></div><div><img src=\"img/other/info.jpg\" title=\"Анкета\"></div></div>", 1);
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("header", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.user.login) + "[" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.user.level) + "]", 1
   /* TEXT */
-  )]), _hoisted_7]), _hoisted_8]);
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": "hp-line",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)($data.hpLineStyle)
+  }, null, 4
+  /* STYLE */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.user.curhp) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.user.maxhp), 1
+  /* TEXT */
+  )])]), _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.dbLog, function (query) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" query: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(query.query) + "; time: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(query.time) + "; bindings: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(query.bindings) + "; ", 1
+    /* TEXT */
+    ), _hoisted_12]);
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  ))])]);
 }
 
 /***/ }),
@@ -17828,7 +17926,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = ["onMouseenter"];
+var _hoisted_1 = ["onMouseenter", "onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.closestLocations[$props.type], function (location) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -17840,7 +17938,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       },
       onMouseleave: _cache[0] || (_cache[0] = function ($event) {
         return _ctx.SET_ACTIVE_LOCATION(false);
-      })
+      }),
+      onClick: function onClick($event) {
+        return $options.changeLocation1(location.id);
+      }
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(location.name), 43
     /* TEXT, CLASS, PROPS, HYDRATE_EVENTS */
     , _hoisted_1);
@@ -17910,16 +18011,21 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     location: {},
     closestLocations: {},
     activeLocation: false,
+    dbLog: [],
     csrf: ''
   },
   mutations: {
     SET_USER: function SET_USER(state, user) {
       state.user = user;
     },
+    SET_USER_LOCATION: function SET_USER_LOCATION(state, locationId) {
+      state.user.location = locationId;
+    },
     SET_LOCATION: function SET_LOCATION(state, location) {
       state.location = location;
     },
     SET_CLOSEST_LOCATIONS: function SET_CLOSEST_LOCATIONS(state, closestLocations) {
+      console.log(closestLocations);
       var closestLocationByType = {};
 
       var _iterator = _createForOfIteratorHelper(closestLocations),
@@ -17946,6 +18052,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     SET_ACTIVE_LOCATION: function SET_ACTIVE_LOCATION(state, activeLocation) {
       state.activeLocation = activeLocation;
     },
+    SET_DB_LOG: function SET_DB_LOG(state, dbLog) {
+      state.dbLog = dbLog;
+    },
     SET_CSRF: function SET_CSRF(state, csrf) {
       state.csrf = csrf;
     }
@@ -17965,6 +18074,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     },
     activeLocation: function activeLocation(state) {
       return state.activeLocation;
+    },
+    dbLog: function dbLog(state) {
+      return state.dbLog;
     }
   },
   actions: {
@@ -17996,20 +18108,72 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
                 commit('SET_USER', InitData.user);
                 commit('SET_LOCATION', InitData.location);
                 commit('SET_CLOSEST_LOCATIONS', InitData.closestLocations);
-                _context.next = 17;
+
+                if (InitData.db) {
+                  commit('SET_DB_LOG', InitData.db);
+                }
+
+                _context.next = 18;
                 break;
 
-              case 14:
-                _context.prev = 14;
+              case 15:
+                _context.prev = 15;
                 _context.t0 = _context["catch"](1);
                 console.log(_context.t0);
 
-              case 17:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 14]]);
+        }, _callee, null, [[1, 15]]);
+      }))();
+    },
+    changeLocation: function changeLocation(_ref2, locationId) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var commit, location;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                _context2.prev = 1;
+                _context2.next = 4;
+                return fetch('/change-location/' + locationId, {
+                  headers: {
+                    'Content-Type': 'application/json'
+                  }
+                });
+
+              case 4:
+                location = _context2.sent;
+                _context2.next = 7;
+                return location.json();
+
+              case 7:
+                location = _context2.sent;
+                commit('SET_USER_LOCATION', locationId);
+                commit('SET_LOCATION', location);
+                commit('SET_CLOSEST_LOCATIONS', location.closestLocations);
+
+                if (location.db) {
+                  commit('SET_DB_LOG', location.db);
+                }
+
+                _context2.next = 17;
+                break;
+
+              case 14:
+                _context2.prev = 14;
+                _context2.t0 = _context2["catch"](1);
+                console.log(_context2.t0);
+
+              case 17:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[1, 14]]);
       }))();
     }
   }

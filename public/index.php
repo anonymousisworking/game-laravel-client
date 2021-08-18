@@ -50,6 +50,15 @@ $kernel = $app->make(Kernel::class);
 
 $response = tap($kernel->handle(
     $request = Request::capture()
-))->send();
+));//->send();
+
+if ($request->headers->all('content-type')[0] == "application/json") {
+    $data = json_decode($response->getContent()->getContent());
+    if ($data) {
+        $data->db = \DB::getQueryLog();
+        $response->setContent(json_encode($data));
+    }
+}
+$response->send();
 
 $kernel->terminate($request, $response);

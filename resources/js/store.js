@@ -7,6 +7,7 @@ export default createStore({
         location: {},
         closestLocations: {},
         activeLocation: false,
+        dbLog: [],
         csrf: ''
     },
 
@@ -15,11 +16,16 @@ export default createStore({
             state.user = user;
         },
 
+        SET_USER_LOCATION(state, locationId) {
+            state.user.location = locationId;
+        },
+
         SET_LOCATION(state, location) {
             state.location = location;
         },
 
         SET_CLOSEST_LOCATIONS(state, closestLocations) {
+            console.log(closestLocations);
             let closestLocationByType = {};
             for (let closest_location of closestLocations) {
                 if (typeof closestLocationByType[closest_location.type] == 'undefined') {
@@ -32,6 +38,10 @@ export default createStore({
 
         SET_ACTIVE_LOCATION(state, activeLocation) {
             state.activeLocation = activeLocation;
+        },
+
+        SET_DB_LOG(state, dbLog) {
+            state.dbLog = dbLog;
         },
 
         SET_CSRF(state, csrf) {
@@ -58,6 +68,10 @@ export default createStore({
 
         activeLocation(state) {
             return state.activeLocation;
+        },
+
+        dbLog(state) {
+            return state.dbLog;
         }
     },
 
@@ -77,6 +91,30 @@ export default createStore({
                 commit('SET_USER', InitData.user);
                 commit('SET_LOCATION', InitData.location);
                 commit('SET_CLOSEST_LOCATIONS', InitData.closestLocations);
+                if (InitData.db) {
+                    commit('SET_DB_LOG', InitData.db);
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        },
+
+        async changeLocation({ commit }, locationId) {
+            try {
+                let location = await fetch('/change-location/' + locationId, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                location = await location.json();
+
+                commit('SET_USER_LOCATION', locationId);
+                commit('SET_LOCATION', location);
+                commit('SET_CLOSEST_LOCATIONS', location.closestLocations);
+                if (location.db) {
+                    commit('SET_DB_LOG', location.db);
+                }
             } catch (e) {
                 console.log(e);
             }

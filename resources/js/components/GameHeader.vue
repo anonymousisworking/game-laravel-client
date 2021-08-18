@@ -9,9 +9,9 @@
             </div>
             <div class="hp-wrapper">
                 <div class="hp-back">
-                    <div class="hp-line"></div>
+                    <div class="hp-line" :style="hpLineStyle"></div>
                 </div>
-                <div class="hp"></div>
+                <div class="hp">{{ user.curhp }} / {{ user.maxhp }}</div>
             </div>
         </div>
         <div class="top-panel flex">
@@ -21,19 +21,102 @@
             <div><img src="img/other/quest.jpg" title="Квесты"></div>
             <div><img src="img/other/info.jpg" title="Анкета"></div>
         </div>
+        <div id="dblog">
+            <div v-for="query in dbLog">
+                query: {{ query.query }}; time: {{ query.time }}; bindings: {{ query.bindings }};
+                <hr>
+            </div>
+        </div>
     </header>
 </template>
 
 <script>
 
-import { mapGetters } from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 
 export default {
     name: "GameHeader",
 
-    computed: mapGetters([
-        'user'
-    ]),
+    data() {
+        return {
+            hpLineStyle: {}
+        }
+    },
+
+    methods: {
+        hpRegeneration(curHp = 200, maxHp = 800, lastRestore) {
+
+            function getTimeSeconds() {
+                return (new Date()).getTime() / 1000;
+            }
+
+            const hp = (curHp, maxHp, lastRestore) => {
+                // console.log(1, this.user);return;
+                return () => {
+                    const time 	= getTimeSeconds();
+                    const limeLeft = time - lastRestore;
+                    lastRestore = time;
+                    curHp = curHp + limeLeft * restoreOneSecond;
+                    // console.log(curHp, limeLeft, lastRestore, maxHp);
+                    if (curHp >= maxHp) {
+                        curHp = maxHp;
+                        endRestoreFlag = true;
+                    }
+                    this.user.curhp = Math.round(+curHp);
+                    this.user.last_restore = time;
+                    this.SET_USER(this.user);
+
+
+                    const curHpInPercent = curHp / maxHp * 100;
+                    const color = curHpInPercent < 33 ? '#993e3e' : (curHpInPercent < 66 ? '#dddd42' : 'green');
+
+                    this.hpLineStyle.width = curHp / maxHp * 100 + '%';
+                    this.hpLineStyle.backgroundColor = color;
+
+                    return endRestoreFlag;
+                }
+            }
+
+            let restoreSpeed = 1;
+            let minutesToMaxHp = 5;
+            let renderSpeed = 1 / 2;
+            let endRestoreFlag	= false;
+            const restoreOneSecond = maxHp / (minutesToMaxHp / restoreSpeed) / 60;
+
+            let HpRestore = hp(curHp, maxHp, lastRestore);
+            const stop = HpRestore();
+
+            if (!stop) {
+                const timer = setInterval(() => {
+                    if (HpRestore()) {
+                        clearInterval(timer);
+                    }
+                }, 1000 / renderSpeed);
+            }
+        },
+        ...mapMutations(['SET_USER']),
+    },
+
+    computed: {
+        ...mapGetters([
+            'user',
+            'dbLog'
+        ]),
+
+
+
+        style() {
+
+        }
+    },
+
+    mounted() {
+        setTimeout(() => {
+            // console.log(this.user);
+            this.hpRegeneration(this.user.curhp, this.user.maxhp, this.user.last_restore);
+        }, 1000);
+
+    }
 }
 </script>
 

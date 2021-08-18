@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Location;
+use App\Models\LocationAccess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -24,6 +26,16 @@ class UserController extends Controller
         }
 
         return redirect()->back()->with('_errors', 'Email or password is wrong');
+    }
+
+    public function changeLocation($locationId)
+    {
+        $possibleLocations = LocationAccess::where('loc_id' , Auth::user()->location)
+                                            ->where('access_loc_id', $locationId)->first();
+
+        if ($possibleLocations) {
+            return Location::getById($locationId);
+        }
     }
 
     public function registrationForm()

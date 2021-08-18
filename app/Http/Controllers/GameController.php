@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Models\Location;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
 {
@@ -20,13 +21,8 @@ class GameController extends Controller
 
     public function init()
     {
-        $user       = Auth::user()->select('id', 'login', 'level', 'location')->first();
-        $location   = Location::where('id', $user->location)->with('closestLocations')->select('id', 'name', 'type', 'image', 'locations_coords')->first();
-        // $location   = Location::find($user->location);
-
-        // dd($location);
-        // dd($user, $location);
-        // dd($user, get_class_methods($user));
+        $user       = Auth::user()->getUser();
+        $location   = Location::getById($user->location);
 
         $closestLocations = $location->closestLocations;
         unset($location->closestLocations);

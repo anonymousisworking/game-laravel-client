@@ -656,3 +656,16 @@ area:hover {
   background: #07b6c8;
   width: 0;
 }
+
+#dblog {
+  position: fixed;
+  z-index: 9999;
+  width: 30%;
+  height: 200px;
+  overflow-y: auto;
+  right: 0;
+  top: 0;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}

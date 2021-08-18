@@ -25,8 +25,9 @@ class CreateUsersTable extends Migration
             $table->integer('critical')->unsigned()->default(3);
             $table->integer('evasion')->unsigned()->default(3);
             $table->integer('stamina')->unsigned()->default(3);
-            $table->float('curhp', 10, 3)->default(0)->unsigned();
+            $table->float('curhp', 10, 3)->default(2)->unsigned();
             $table->integer('maxhp')->unsigned()->default(18);
+            $table->integer('last_restore')->default(time())->unsigned();
             $table->boolean('sex')->unsigned();
             $table->integer('clan')->unsigned()->index()->nullable();
             $table->integer('gold')->unsigned()->default(0);
@@ -65,14 +66,13 @@ class CreateUsersTable extends Migration
             $table->integer('location')->default(1)->unsigned();
             $table->integer('transition_time')->default(0)->unsigned();
             $table->integer('transition_time_left')->default(0)->unsigned();
-            $table->integer('max_hp_time')->default(0)->unsigned();
             $table->integer('herbology')->default(0)->unsigned();
             $table->integer('forest_timeout')->default(0)->unsigned();
             $table->integer('fishing')->default(0)->unsigned();
             $table->integer('fishing_timeout')->default(0)->unsigned();
             // $table->tinyInteger('bot')->default(0)->unsigned();
             $table->boolean('bot')->unsigned()->default(0)->index();
-            $table->integer('dangeon')->default(0)->unsigned()->index();
+            $table->integer('dungeon')->default(0)->unsigned()->index();
             $table->dateTime('birthday')->nullable();
 
             $table->rememberToken();
@@ -80,7 +80,7 @@ class CreateUsersTable extends Migration
         });
 
         // DB::statement('CREATE INDEX description_idx ON Customers (description(100));');
-        
+
     }
 
     /**
