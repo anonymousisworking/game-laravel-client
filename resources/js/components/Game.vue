@@ -13,12 +13,12 @@ export default {
 	}),
 
 	methods: {
-		...mapActions(['init']),
+		// ...mapActions(['init']),
 		...mapMutations(['SET_CSRF']),
 	},
 
 	created() {
-		this.init();
+		this.$store.dispatch('init');
 		this.SET_CSRF(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
 	}
 }

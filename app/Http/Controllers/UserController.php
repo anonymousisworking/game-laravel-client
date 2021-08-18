@@ -34,6 +34,7 @@ class UserController extends Controller
                                             ->where('access_loc_id', $locationId)->first();
 
         if ($possibleLocations) {
+            User::where('id', Auth::user()->id)->update(['location' => $locationId]);
             return Location::getById($locationId);
         }
     }

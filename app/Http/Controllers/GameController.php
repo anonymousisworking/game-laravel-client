@@ -24,13 +24,10 @@ class GameController extends Controller
         $user       = Auth::user()->getUser();
         $location   = Location::getById($user->location);
 
-        $closestLocations = $location->closestLocations;
-        unset($location->closestLocations);
-
         return response()->json([
             'user'      => $user,
-            'location'  => $location,
-            'closestLocations'  => $closestLocations,
+            'location'  => $location['location'],
+            'closestLocations'  => $location['closestLocations'],
         ]);
     }
 }

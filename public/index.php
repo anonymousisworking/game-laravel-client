@@ -52,7 +52,7 @@ $response = tap($kernel->handle(
     $request = Request::capture()
 ));//->send();
 
-if ($request->headers->all('content-type')[0] == "application/json") {
+if ($request->headers->all('content-type')[0] ?? null == "application/json") {
     $data = json_decode($response->getContent()->getContent());
     if ($data) {
         $data->db = \DB::getQueryLog();

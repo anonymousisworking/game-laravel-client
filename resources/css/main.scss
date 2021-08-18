@@ -142,6 +142,7 @@ header {
         font-weight: bold;
         color: #fff;
         display: inline-block;
+        top: -2px;
     }
 }
 
@@ -568,11 +569,12 @@ area:hover {
     position: fixed;
     z-index: 9999;
     width: 30%;
-    height: 200px;
+    height: 150px;
     overflow-y: auto;
     right: 0;
     top: 0;
     padding: 10px;
     background: rgba(0, 0, 0, .6);
     color: #fff;
+    font-size: 11px;
 }

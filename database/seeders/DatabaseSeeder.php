@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
 		    	'id' => 2,
 		    	'name' => 'Башня сражений',
 		    	'type' => 'location',
-		    	'image' => null, 
+		    	'image' => 'battle-tower.jpg', 
 		    	'locations_coords' => null
 		    ],
 		    [
@@ -86,13 +86,14 @@ class DatabaseSeeder extends Seeder
 		    	'id' => 7,
 		    	'name' => 'Лес',
 		    	'type' => 'location',
-		    	'image' => null, 
+		    	'image' => 'forest.jpg', 
 		    	'locations_coords' => null
 		    ],
 		]);
 
 		// Add locations access
         DB::table('locations_access')->insert([
+        	// Торговая площадь
 		    [
 		    	'loc_id' => 1,
 		    	'access_loc_id' => 2,
@@ -118,10 +119,43 @@ class DatabaseSeeder extends Seeder
 		    	'access_loc_id ' => 7,
 		   	],
 
+        	// Башня сражений
+		   	[
+		    	'loc_id' => 2,
+		    	'access_loc_id ' => 1,
+		   	],
+
+        	// Магазин
+		   	[
+		    	'loc_id' => 3,
+		    	'access_loc_id ' => 1,
+		   	],
+
+		   	// Банк
+		   	[
+		    	'loc_id' => 4,
+		    	'access_loc_id ' => 1,
+		   	],
+
+
+			// Фонтан
+		   	[
+		    	'loc_id' => 5,
+		    	'access_loc_id ' => 1,
+		   	],
+
+		   	// Озеро
 		   	[
 		    	'loc_id' => 6,
 		    	'access_loc_id ' => 1,
 		   	],
+
+		   	// Лес
+		   	[
+		    	'loc_id' => 7,
+		    	'access_loc_id ' => 1,
+		   	],
+
 		]);
 
     }

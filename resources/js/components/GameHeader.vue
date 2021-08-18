@@ -23,7 +23,7 @@
         </div>
         <div id="dblog">
             <div v-for="query in dbLog">
-                query: {{ query.query }}; time: {{ query.time }}; bindings: {{ query.bindings }};
+                {{ query.query }}; t::{{ query.time }}; b::{{ query.bindings }};
                 <hr>
             </div>
         </div>
@@ -45,13 +45,11 @@ export default {
 
     methods: {
         hpRegeneration(curHp = 200, maxHp = 800, lastRestore) {
-
             function getTimeSeconds() {
                 return (new Date()).getTime() / 1000;
             }
 
             const hp = (curHp, maxHp, lastRestore) => {
-                // console.log(1, this.user);return;
                 return () => {
                     const time 	= getTimeSeconds();
                     const limeLeft = time - lastRestore;
@@ -72,7 +70,7 @@ export default {
 
                     this.hpLineStyle.width = curHp / maxHp * 100 + '%';
                     this.hpLineStyle.backgroundColor = color;
-
+                    
                     return endRestoreFlag;
                 }
             }
@@ -102,20 +100,15 @@ export default {
             'user',
             'dbLog'
         ]),
-
-
-
-        style() {
-
-        }
     },
 
     mounted() {
-        setTimeout(() => {
-            // console.log(this.user);
-            this.hpRegeneration(this.user.curhp, this.user.maxhp, this.user.last_restore);
-        }, 1000);
+    },
 
+    watch: {
+        user() {
+            this.hpRegeneration(this.user.curhp, this.user.maxhp, this.user.last_restore);
+        }
     }
 }
 </script>

@@ -21,11 +21,12 @@ export default createStore({
         },
 
         SET_LOCATION(state, location) {
+            location.locations_coords = JSON.parse(location.locations_coords);
             state.location = location;
         },
 
         SET_CLOSEST_LOCATIONS(state, closestLocations) {
-            console.log(closestLocations);
+            // console.log(closestLocations);
             let closestLocationByType = {};
             for (let closest_location of closestLocations) {
                 if (typeof closestLocationByType[closest_location.type] == 'undefined') {
@@ -77,47 +78,37 @@ export default createStore({
 
     actions: {
         async init({ commit }) {
-            try {
-                let InitData = await fetch('/init', {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                InitData = await InitData.json();
-                // console.log(InitData);return;
-                InitData.location.locations_coords = JSON.parse(InitData.location.locations_coords);
-
-                commit('SET_USER', InitData.user);
-                commit('SET_LOCATION', InitData.location);
-                commit('SET_CLOSEST_LOCATIONS', InitData.closestLocations);
-                if (InitData.db) {
-                    commit('SET_DB_LOG', InitData.db);
-                }
-            } catch (e) {
-                console.log(e);
-            }
+            await load('/init', (data, commit) => {
+                commit('SET_USER', data.user);
+            }, commit);
         },
 
         async changeLocation({ commit }, locationId) {
-            try {
-                let location = await fetch('/change-location/' + locationId, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                location = await location.json();
-
+            await load('/change-location/' + locationId, (data, commit) => {
                 commit('SET_USER_LOCATION', locationId);
-                commit('SET_LOCATION', location);
-                commit('SET_CLOSEST_LOCATIONS', location.closestLocations);
-                if (location.db) {
-                    commit('SET_DB_LOG', location.db);
-                }
-            } catch (e) {
-                console.log(e);
-            }
-        }
+            }, commit);
+        },
     }
 });
+
+
+async function load(url, callback = false, commit) {
+    try {
+        let data = await fetch(url, {
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        data = await data.json();
+        if (callback) callback(data, commit);
+
+        commit('SET_LOCATION', data.location);
+        commit('SET_CLOSEST_LOCATIONS', data.closestLocations);
+        if (data.db) {
+            commit('SET_DB_LOG', data.db);
+        }
+
+        return data;
+    } catch (e) {
+        console.log(e);
+    }
+}
