@@ -10,6 +10,7 @@
                         :points="coords"
                         @mouseenter="SET_ACTIVE_LOCATION(index)"
                         @mouseleave="SET_ACTIVE_LOCATION(false)"
+                        @click="changeLocation(index)"
                     />
 				 </template>
 				</svg>
@@ -53,7 +54,7 @@
 
 <script>
 
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 import LocationLink from "./location/LocationLink";
 
 export default {
@@ -65,7 +66,8 @@ export default {
     }),
 
 	methods: {
-        ...mapMutations(['SET_ACTIVE_LOCATION'])
+        ...mapMutations(['SET_ACTIVE_LOCATION']),
+        ...mapActions(['changeLocation']),
 	},
 
 	computed: {

@@ -4,7 +4,7 @@
         :class="['link', 'loc-' + location.id, {active: activeLocation == location.id}]"
         @mouseenter="SET_ACTIVE_LOCATION(location.id)"
         @mouseleave="SET_ACTIVE_LOCATION(false)"
-        @click="changeLocation1(location.id)"
+        @click="changeLocation(location.id)"
     >
         {{ location.name }}
     </div>
@@ -20,10 +20,6 @@ export default {
     methods: {
         ...mapMutations(['SET_ACTIVE_LOCATION']),
         ...mapActions(['changeLocation']),
-
-        changeLocation1(locationId) {
-            this.$store.dispatch('changeLocation', locationId);
-        }
     },
 
     computed: {

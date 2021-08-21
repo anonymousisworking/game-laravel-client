@@ -26,15 +26,7 @@ export default createStore({
         },
 
         SET_CLOSEST_LOCATIONS(state, closestLocations) {
-            // console.log(closestLocations);
-            let closestLocationByType = {};
-            for (let closest_location of closestLocations) {
-                if (typeof closestLocationByType[closest_location.type] == 'undefined') {
-                    closestLocationByType[closest_location.type] = [];
-                }
-                closestLocationByType[closest_location.type].push(closest_location);
-            }
-            state.closestLocations = closestLocationByType;
+            state.closestLocations = sortClosestLocationsByType(closestLocations);
         },
 
         SET_ACTIVE_LOCATION(state, activeLocation) {
@@ -111,4 +103,16 @@ async function load(url, callback = false, commit) {
     } catch (e) {
         console.log(e);
     }
+}
+
+function sortClosestLocationsByType(closestLocations) {
+    let closestLocationByType = {};
+    for (let closest_location of closestLocations) {
+        if (typeof closestLocationByType[closest_location.type] == 'undefined') {
+            closestLocationByType[closest_location.type] = [];
+        }
+        closestLocationByType[closest_location.type].push(closest_location);
+    }
+
+    return closestLocationByType;
 }
