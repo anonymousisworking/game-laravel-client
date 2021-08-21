@@ -37,4 +37,5 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('/logout', [UserController::class, 'logout'])->name('logout');
     Route::get('/init', [GameController::class, 'init']);
     Route::get('/change-location/{id}', [UserController::class, 'changeLocation']);
+    Route::get('/user/reset', [UserController::class, 'reset']);
 });
