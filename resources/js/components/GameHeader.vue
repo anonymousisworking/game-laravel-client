@@ -60,7 +60,7 @@ export default {
                         curHp = maxHp;
                         endRestoreFlag = true;
                     }
-                    this.user.curhp = Math.round(+curHp);
+                    this.user.curhp = Math.floor(+curHp);
                     this.user.last_restore = time;
                     this.SET_USER(this.user);
 
@@ -106,8 +106,11 @@ export default {
     },
 
     watch: {
-        user() {
-            this.hpRegeneration(this.user.curhp, this.user.maxhp, this.user.last_restore);
+        user(user) {
+            console.log(user);
+            if (user.curhp < user.maxhp) {
+                this.hpRegeneration(this.user.curhp, this.user.maxhp, this.user.last_restore);
+            }
         }
     }
 }

@@ -17454,7 +17454,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             endRestoreFlag = true;
           }
 
-          _this.user.curhp = Math.round(+curHp);
+          _this.user.curhp = Math.floor(+curHp);
           _this.user.last_restore = time;
 
           _this.SET_USER(_this.user);
@@ -17487,8 +17487,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['user', 'dbLog'])),
   mounted: function mounted() {},
   watch: {
-    user: function user() {
-      this.hpRegeneration(this.user.curhp, this.user.maxhp, this.user.last_restore);
+    user: function user(_user) {
+      console.log(_user);
+
+      if (_user.curhp < _user.maxhp) {
+        this.hpRegeneration(this.user.curhp, this.user.maxhp, this.user.last_restore);
+      }
     }
   }
 });
