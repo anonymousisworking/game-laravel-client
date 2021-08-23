@@ -64,4 +64,12 @@ class UserController extends Controller
 
         return redirect('/');
     }
+
+    public function reset()
+    {
+        User::where('id', Auth::user()->id)->update([
+            'curhp' => 1,
+            'last_restore' => time(),
+        ]);
+    }
 }

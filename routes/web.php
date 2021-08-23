@@ -38,4 +38,5 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/init', [GameController::class, 'init']);
     Route::get('/change-location/{id}', [UserController::class, 'changeLocation']);
     Route::get('/ws-token', [GameController::class, 'wsToken']);
+    Route::get('/user/reset', [UserController::class, 'reset']);
 });

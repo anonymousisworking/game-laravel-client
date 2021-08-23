@@ -14,6 +14,7 @@
                 <div class="hp">{{ user.curhp }} / {{ user.maxhp }}</div>
             </div>
         </div>
+        <button class="reset-hp" @click="reset">сбросить хп</button>
         <div class="top-panel flex">
             <div><img src="img/other/pack.jpg" title="Рюкзак"></div>
             <div><img src="img/other/location.jpg" title="Локация"></div>
@@ -44,6 +45,10 @@ export default {
     },
 
     methods: {
+        reset() {
+            fetch('/user/reset').then(() => location.reload());
+        },
+
         hpRegeneration(curHp = 200, maxHp = 800, lastRestore) {
             function getTimeSeconds() {
                 return (new Date()).getTime() / 1000;
@@ -60,7 +65,7 @@ export default {
                         curHp = maxHp;
                         endRestoreFlag = true;
                     }
-                    this.user.curhp = Math.round(+curHp);
+                    this.user.curhp = Math.floor(+curHp);
                     this.user.last_restore = time;
                     this.SET_USER(this.user);
 
@@ -86,6 +91,8 @@ export default {
 
             if (!stop) {
                 const timer = setInterval(() => {
+
+                    // console.log(this.user);
                     if (HpRestore()) {
                         clearInterval(timer);
                     }
@@ -106,8 +113,11 @@ export default {
     },
 
     watch: {
-        user() {
-            this.hpRegeneration(this.user.curhp, this.user.maxhp, this.user.last_restore);
+        user(user) {
+            console.log(user);
+            // if (user.curhp < user.maxhp) {
+                this.hpRegeneration(this.user.curhp, this.user.maxhp, this.user.last_restore);
+            // }
         }
     }
 }
