@@ -18,7 +18,8 @@ class CreateLocationsTable extends Migration
             $table->string('name');
             $table->string('type')->nullable();
             $table->string('image')->nullable();
-            $table->json('locations_coords')->nullable();
+            $table->json('loc_coords')->nullable();
+            $table->json('loc_access')->nullable();
             $table->timestamps();
         });
     }

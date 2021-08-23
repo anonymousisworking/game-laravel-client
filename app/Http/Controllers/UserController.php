@@ -30,10 +30,10 @@ class UserController extends Controller
 
     public function changeLocation($locationId)
     {
-        $possibleLocations = LocationAccess::where('loc_id' , Auth::user()->location)
+        $closestLocations = LocationAccess::where('loc_id' , Auth::user()->location)
                                             ->where('access_loc_id', $locationId)->first();
 
-        if ($possibleLocations) {
+        if ($closestLocations) {
             User::where('id', Auth::user()->id)->update(['location' => $locationId]);
             return Location::getById($locationId);
         }
