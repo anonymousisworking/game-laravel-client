@@ -5,6 +5,10 @@ import GameHeader from './components/GameHeader'
 import GameFooter from './components/GameFooter'
 import LocationWrapper from './components/LocationWrapper'
 
+import * as common from './common'
+
+console.log(common.date('H:i:s'));
+
 const game = createApp({})
 
 game

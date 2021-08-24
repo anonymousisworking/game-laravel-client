@@ -12,10 +12,10 @@ class GameController extends Controller
 {
     public function index()
     {
-        return [
-            'a' => 1,
-            'b' => 2,
-        ];
+        // return [
+        //     'a' => 1,
+        //     'b' => 2,
+        // ];
 //        dd($_COOKIE);
         // dd(User::find(1));
         return view(Auth::check() ? 'main' : 'index');
