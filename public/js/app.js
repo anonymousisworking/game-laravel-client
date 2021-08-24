@@ -17628,7 +17628,7 @@ var _hoisted_2 = {
   id: "chat"
 };
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"flex\"><div id=\"messages\"></div><div id=\"chat-room\"><div id=\"location-caption\"><span class=\"name\">...</span> (<span class=\"count\">...</span>) <!-- &lt;span class=&quot;update icon-spin3&quot; title=&quot;Обновить&quot;&gt;&lt;/span&gt; --></div><div id=\"room-users\"></div></div></div>", 1);
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"flex\"><div id=\"messages\"></div><div id=\"chat-loc\"><div id=\"location-caption\"><span class=\"name\">...</span> (<span class=\"count\">...</span>) <!-- &lt;span class=&quot;update icon-spin3&quot; title=&quot;Обновить&quot;&gt;&lt;/span&gt; --></div><div id=\"loc-users\"></div></div></div>", 1);
 
 var _hoisted_4 = {
   id: "bottom-panel"
@@ -17857,7 +17857,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.location.name), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.location.locations_coords, function (coords, index) {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.location.loc_coords, function (coords, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("polygon", {
       key: index,
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["loc-".concat(index), {
@@ -18011,7 +18011,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       state.user.location = locationId;
     },
     SET_LOCATION: function SET_LOCATION(state, location) {
-      location.locations_coords = JSON.parse(location.locations_coords);
+      // location.loc_coords = JSON.parse(location.loc_coords);
+      location.loc_coords = location.loc_coords;
       state.location = location;
     },
     SET_CLOSEST_LOCATIONS: function SET_CLOSEST_LOCATIONS(state, closestLocations) {

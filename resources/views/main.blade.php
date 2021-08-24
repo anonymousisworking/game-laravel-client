@@ -22,7 +22,7 @@
 {{--<script>--}}
 {{--    let user = {--}}
 {{--        name: '<?=s('name')?>',--}}
-{{--        room: <?=s('room') ?: "''"?>,--}}
+{{--        loc: <?=s('loc') ?: "''"?>,--}}
 {{--        transitionTimeout: <?=s('transitionTimeout') ?: "''"?>,--}}
 {{--    };--}}
 {{--</script>--}}

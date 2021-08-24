@@ -21,7 +21,8 @@ export default createStore({
         },
 
         SET_LOCATION(state, location) {
-            location.locations_coords = JSON.parse(location.locations_coords);
+            // location.loc_coords = JSON.parse(location.loc_coords);
+            location.loc_coords = location.loc_coords;
             state.location = location;
         },
 

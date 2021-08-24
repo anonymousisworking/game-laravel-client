@@ -62,7 +62,7 @@ class CreateUsersTable extends Migration
             $table->integer('help')->default(0)->unsigned();
             $table->integer('loc')->default(1)->unsigned();
             $table->integer('trans_time')->default(0)->unsigned();
-            $table->integer('trans_time_left')->default(0)->unsigned();
+            $table->integer('trans_timeout')->default(0)->unsigned();
             $table->integer('herbology')->default(0)->unsigned();
             $table->integer('forest_timeout')->default(0)->unsigned();
             $table->integer('fishing')->default(0)->unsigned();

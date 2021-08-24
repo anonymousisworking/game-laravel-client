@@ -12,8 +12,12 @@ class GameController extends Controller
 {
     public function index()
     {
+        return [
+            'a' => 1,
+            'b' => 2,
+        ];
 //        dd($_COOKIE);
-        dd(User::find(1));
+        // dd(User::find(1));
         return view(Auth::check() ? 'main' : 'index');
     }
 
@@ -25,7 +29,7 @@ class GameController extends Controller
     public function init()
     {
         $user       = Auth::user()->getUser();
-        $location   = Location::getById($user->location);
+        $location   = Location::getById($user->loc);
 
         return response()->json([
             'user'      => $user,

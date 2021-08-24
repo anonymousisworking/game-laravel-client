@@ -393,7 +393,7 @@ footer {
 #chat #messages > .msg:nth-child(even) {
   background-color: #fbfbfb;
 }
-#chat #chat-room {
+#chat #chat-loc {
   width: 300px;
 }
 #chat #location-caption {
@@ -409,11 +409,11 @@ footer {
   position: relative;
   top: -1px;
 }
-#chat #room-users {
+#chat #loc-users {
   height: 100%;
   overflow: auto;
 }
-#chat #room-users .name {
+#chat #loc-users .name {
   font-weight: bold;
   cursor: pointer;
 }

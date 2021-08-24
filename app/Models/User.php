@@ -13,6 +13,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public $timestamps = false;
+
     const STAMINA_RATE = 6;
 
     /**
@@ -107,7 +109,7 @@ class User extends Authenticatable
 
     public function getUser()
     {
-        $user = (object)Auth::user()->only(['id', 'login', 'level', 'stamina', 'location', 'curhp', 'maxhp', 'last_restore', 'fight']);
+        $user = (object)Auth::user()->only(['id', 'login', 'level', 'stamina', 'loc', 'curhp', 'maxhp', 'last_restore', 'fight']);
         $this->recalculateMaxHp($user);
         $this->restoreHp($user);
 

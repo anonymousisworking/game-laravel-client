@@ -4,7 +4,7 @@
 			<div class="name">{{ location.name }}</div>
 			<div class="svg-wrapper">
 				<svg ref="svg">
-				<template v-for="(coords, index) in location.locations_coords" :key="index">
+				<template v-for="(coords, index) in location.loc_coords" :key="index">
 					<polygon
                         :class="[`loc-${index}`, {active: activeLocation == index}]"
                         :points="coords"
