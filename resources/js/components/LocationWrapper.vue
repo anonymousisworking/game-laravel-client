@@ -22,21 +22,21 @@
 			<div class="location-block locations">
 				<div class="title">Локации</div>
 				<div class="list">
-                    <location-link :closestLocations="closestLocations" type="location"></location-link>
+                    <location-link :closestLocations="closestLocations" type="location" @chloc="id => this.$emit('chloc', id)"></location-link>
 				</div>
 			</div>
 
 			<div class="location-block objects">
 				<div class="title">Объекты</div>
 				<div class="list">
-                    <location-link :closestLocations="closestLocations" type="object"></location-link>
+                    <location-link :closestLocations="closestLocations" type="object" @chloc="id => this.$emit('chloc', id)"></location-link>
 				</div>
 			</div>
 
 			<div class="location-block characters">
 				<div class="title">Персонажи</div>
 				<div class="list">
-                    <location-link :closestLocations="closestLocations" type="character"></location-link>
+                    <location-link :closestLocations="closestLocations" type="character" @chloc="id => this.$emit('chloc', id)"></location-link>
                 </div>
 			</div>
 
@@ -61,6 +61,8 @@ export default {
 	name: "location-wrapper",
     components: { LocationLink },
 
+    emits:['chloc'],
+
     data: () => ({
         // activeLocation: false
     }),
@@ -81,6 +83,10 @@ export default {
 	watch: {
 		location(location) {
 			this.$refs.image.src = 'img/locations/' + location.image;
+		},
+
+		closestLocations(val) {
+			cl(val);
 		}
 	},
 

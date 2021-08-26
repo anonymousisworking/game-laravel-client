@@ -12,6 +12,7 @@
         <game></game>
     </div>
 
+    <script src="js/common.js"></script>
 	<script src="{{ mix('/js/app.js') }}"></script>
 {{--<script src="js/less.min.js"></script>--}}
 {{--<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>--}}

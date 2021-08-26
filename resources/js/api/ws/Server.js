@@ -1,6 +1,6 @@
 const DUPLICATE = '1';
 
-class Server
+export default class Server
 {
 	constructor(to, token, tryConnection = 3) {
 		this.to 			= to;
@@ -15,8 +15,6 @@ class Server
 	connect() {
 		if (!this.tryConnection--) return;
 		this.server = new WebSocket(`${this.to}${this.token}`);
-
-		this.server.onMessage = 
 	}
 
 	connectViaToken() {
@@ -28,6 +26,16 @@ class Server
 	 			this.connect();
 	 		}
 	 	});
+	}
+
+	async getToken() {
+		const res = await fetch('/wsToken');
+
+		console.log(res);
+
+		// if (res == 'error') {
+ 	// 		throw new Error('Session error');
+ 	// 	}
 	}
 
 	send(data) {

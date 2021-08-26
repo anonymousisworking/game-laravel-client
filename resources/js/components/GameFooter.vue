@@ -6,7 +6,7 @@
         </div>
         <div id="chat">
             <div class="flex">
-                <div id="messages"></div>
+                <div id="messages" ref="messages"></div>
                 <div id="chat-loc">
                     <div id="location-caption">
                         <span class="name">...</span>
@@ -18,9 +18,9 @@
             </div>
             <div id="bottom-panel">
                 <div id="time"></div>
-                <form id="sendmessage-form" class="flex">
-                    <div id="message-wrap"><input class="message" id="message" type="text" name="message" size="80" autocomplete="off"></div>
-                    <div><input type="image" src="img/chat/message_send.png" title="Отправить" id="sendmessage"></div>
+                <form id="sendmessage-form" class="flex" @submit.prevent>
+                    <div id="message-wrap"><input class="message" v-model="message" id="message" type="text" name="message" size="80" autocomplete="off"></div>
+                    <div><input type="image" src="img/chat/message_send.png" title="Отправить" id="sendmessage" @click="send"></div>
                 </form>
                 <div><img src="img/chat/chat_clear.gif" title="очистить чат" id="chat-clear"></div>
                 <div><img src="img/chat/chat.ico" title="Смайлы"></div>
@@ -35,17 +35,32 @@
 
 <script>
 
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
     name: "GameFooter",
+
+    data() {
+        return {
+            message: ''
+        }
+    },
 
     computed: mapGetters([
         'csrf'
     ]),
 
+    methods: {
+        send() {
+            this.$emit('sendMessage', this.message);
+            this.message = '';
+            // this.$server.sendMessage(this.message);
+            // chat.sendMessage(this.message);
+        }
+    },
+
     created() {
-        // console.log(1)
+
     }
 }
 </script>

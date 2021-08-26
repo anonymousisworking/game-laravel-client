@@ -27,7 +27,8 @@ export default createStore({
         },
 
         SET_CLOSEST_LOCATIONS(state, closestLocations) {
-            state.closestLocations = sortClosestLocationsByType(closestLocations);
+            state.closestLocations = closestLocations;
+            // state.closestLocations = sortClosestLocationsByType(closestLocations);
         },
 
         SET_ACTIVE_LOCATION(state, activeLocation) {

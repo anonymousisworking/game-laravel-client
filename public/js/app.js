@@ -17379,7 +17379,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _GameHeader__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameHeader */ "./resources/js/components/GameHeader.vue");
+/* harmony import */ var _GameFooter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GameFooter */ "./resources/js/components/GameFooter.vue");
+/* harmony import */ var _LocationWrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LocationWrapper */ "./resources/js/components/LocationWrapper.vue");
+/* harmony import */ var _api_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api.js */ "./resources/js/api.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -17387,14 +17393,65 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+
+
+
+
+var api = new _api_js__WEBPACK_IMPORTED_MODULE_3__.default();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {};
   },
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)(['SET_CSRF'])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapMutations)(['SET_CSRF', 'SET_USER', 'SET_LOCATION', 'SET_CLOSEST_LOCATIONS'])), {}, {
+    changeLocation: function changeLocation(locId) {
+      api.chloc(locId);
+    },
+    sendMessage: function sendMessage(message) {
+      api.sendMessage(message);
+    },
+    scrollDown: function scrollDown() {
+      messages.scrollTop = messages.scrollHeight;
+    },
+    append: function append(message) {
+      messages.innerHTML += "<div class=\"msg\">".concat(date('H:i:s'), " ").concat(message, "</div>"); // messages.append(`<div class="msg">${date('H:i:s')} ${message}</div>`);
+    }
+  }),
+  mounted: function mounted() {
+    api.init(); // cl(this.$server);
+    // this.$store.dispatch('init');
+    // this.SET_CSRF(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+  },
   created: function created() {
-    this.$store.dispatch('init');
-    this.SET_CSRF(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+    var _this = this;
+
+    api.subscribe('me', function (me) {
+      _this.SET_USER(me);
+    }, this);
+    api.subscribe('loc', function (loc) {
+      _this.SET_LOCATION(loc);
+
+      _this.SET_CLOSEST_LOCATIONS(loc.closest_locs);
+    }, this);
+    api.subscribe('message', function (message) {
+      switch (_typeof(message)) {
+        case 'string':
+          _this.append(message);
+
+          break;
+
+        case 'object':
+          _this.append("".concat(message.from, ": ").concat(message.text));
+
+          break;
+      }
+
+      _this.scrollDown();
+    }, this);
+  },
+  components: {
+    GameHeader: _GameHeader__WEBPACK_IMPORTED_MODULE_0__.default,
+    GameFooter: _GameFooter__WEBPACK_IMPORTED_MODULE_1__.default,
+    LocationWrapper: _LocationWrapper__WEBPACK_IMPORTED_MODULE_2__.default
   }
 });
 
@@ -17415,9 +17472,20 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "GameFooter",
+  data: function data() {
+    return {
+      message: ''
+    };
+  },
   computed: (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['csrf']),
-  created: function created() {// console.log(1)
-  }
+  methods: {
+    send: function send() {
+      this.$emit('sendMessage', this.message);
+      this.message = ''; // this.$server.sendMessage(this.message);
+      // chat.sendMessage(this.message);
+    }
+  },
+  created: function created() {}
 });
 
 /***/ }),
@@ -17547,6 +17615,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   components: {
     LocationLink: _location_LocationLink__WEBPACK_IMPORTED_MODULE_0__.default
   },
+  emits: ['chloc'],
   data: function data() {
     return {// activeLocation: false
     };
@@ -17556,6 +17625,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   watch: {
     location: function location(_location) {
       this.$refs.image.src = 'img/locations/' + _location.image;
+    },
+    closestLocations: function closestLocations(val) {
+      cl(val);
     }
   },
   mounted: function mounted() {}
@@ -17585,8 +17657,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "LocationLink",
   props: ['closestLocations', 'type'],
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)(['SET_ACTIVE_LOCATION'])), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['changeLocation'])),
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['activeLocation']))
+  emits: ['chloc'],
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)(['SET_ACTIVE_LOCATION'])), {}, {
+    // ...mapActions(['changeLocation']),
+    test: function test(id) {
+      this.$emit('chloc', id);
+    }
+  }),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['activeLocation'])),
+  mounted: function mounted() {// cl(this.closestLocations['location'])
+  }
 });
 
 /***/ }),
@@ -17611,7 +17691,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_game_footer = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("game-footer");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_game_header), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_location_wrapper), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_game_footer)], 64
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_game_header), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_location_wrapper, {
+    onChloc: $options.changeLocation
+  }, null, 8
+  /* PROPS */
+  , ["onChloc"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_game_footer, {
+    onSendMessage: $options.sendMessage
+  }, null, 8
+  /* PROPS */
+  , ["onSendMessage"])], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -17645,36 +17733,94 @@ var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 var _hoisted_2 = {
   id: "chat"
 };
-
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"flex\"><div id=\"messages\"></div><div id=\"chat-loc\"><div id=\"location-caption\"><span class=\"name\">...</span> (<span class=\"count\">...</span>) <!-- &lt;span class=&quot;update icon-spin3&quot; title=&quot;Обновить&quot;&gt;&lt;/span&gt; --></div><div id=\"loc-users\"></div></div></div>", 1);
-
+var _hoisted_3 = {
+  "class": "flex"
+};
 var _hoisted_4 = {
+  id: "messages",
+  ref: "messages"
+};
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div id=\"chat-loc\"><div id=\"location-caption\"><span class=\"name\">...</span> (<span class=\"count\">...</span>) <!-- &lt;span class=&quot;update icon-spin3&quot; title=&quot;Обновить&quot;&gt;&lt;/span&gt; --></div><div id=\"loc-users\"></div></div>", 1);
+
+var _hoisted_6 = {
   id: "bottom-panel"
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div id=\"time\"></div><form id=\"sendmessage-form\" class=\"flex\"><div id=\"message-wrap\"><input class=\"message\" id=\"message\" type=\"text\" name=\"message\" size=\"80\" autocomplete=\"off\"></div><div><input type=\"image\" src=\"img/chat/message_send.png\" title=\"Отправить\" id=\"sendmessage\"></div></form><div><img src=\"img/chat/chat_clear.gif\" title=\"очистить чат\" id=\"chat-clear\"></div><div><img src=\"img/chat/chat.ico\" title=\"Смайлы\"></div>", 4);
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  id: "time"
+}, null, -1
+/* HOISTED */
+);
 
-var _hoisted_9 = {
+var _hoisted_8 = {
+  id: "message-wrap"
+};
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "img/chat/chat_clear.gif",
+  title: "очистить чат",
+  id: "chat-clear"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  src: "img/chat/chat.ico",
+  title: "Смайлы"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_11 = {
   action: "/logout",
   method: "post",
   id: "logout"
 };
-var _hoisted_10 = ["value"];
+var _hoisted_12 = ["value"];
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   name: "logout"
 }, "Выход", -1
 /* HOISTED */
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("footer", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("footer", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, null, 512
+  /* NEED_PATCH */
+  ), _hoisted_5]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    id: "sendmessage-form",
+    "class": "flex",
+    onSubmit: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {}, ["prevent"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "message",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.message = $event;
+    }),
+    id: "message",
+    type: "text",
+    name: "message",
+    size: "80",
+    autocomplete: "off"
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.message]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "image",
+    src: "img/chat/message_send.png",
+    title: "Отправить",
+    id: "sendmessage",
+    onClick: _cache[1] || (_cache[1] = function () {
+      return $options.send && $options.send.apply($options, arguments);
+    })
+  })])], 32
+  /* HYDRATE_EVENTS */
+  ), _hoisted_9, _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "hidden",
     name: "_token",
     value: _ctx.csrf
   }, null, 8
   /* PROPS */
-  , _hoisted_10), _hoisted_11])])])]);
+  , _hoisted_12), _hoisted_13])])])]);
 }
 
 /***/ }),
@@ -17871,6 +18017,8 @@ var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _this = this;
+
   var _component_location_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("location-link");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.location.name), 1
@@ -17902,17 +18050,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* NEED_PATCH */
   )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_location_link, {
     closestLocations: _ctx.closestLocations,
-    type: "location"
+    type: "location",
+    onChloc: _cache[1] || (_cache[1] = function (id) {
+      return _this.$emit('chloc', id);
+    })
   }, null, 8
   /* PROPS */
   , ["closestLocations"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_location_link, {
     closestLocations: _ctx.closestLocations,
-    type: "object"
+    type: "object",
+    onChloc: _cache[2] || (_cache[2] = function (id) {
+      return _this.$emit('chloc', id);
+    })
   }, null, 8
   /* PROPS */
   , ["closestLocations"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_location_link, {
     closestLocations: _ctx.closestLocations,
-    type: "character"
+    type: "character",
+    onChloc: _cache[3] || (_cache[3] = function (id) {
+      return _this.$emit('chloc', id);
+    })
   }, null, 8
   /* PROPS */
   , ["closestLocations"])])]), _hoisted_18]), _hoisted_19]);
@@ -17935,27 +18092,264 @@ __webpack_require__.r(__webpack_exports__);
 
 var _hoisted_1 = ["onMouseenter", "onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.closestLocations[$props.type], function (location) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.closestLocations[$props.type], function (location, id) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['link', 'loc-' + location.id, {
-        active: _ctx.activeLocation == location.id
+      "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['link', 'loc-' + id, {
+        active: _ctx.activeLocation == id
       }]),
       onMouseenter: function onMouseenter($event) {
-        return _ctx.SET_ACTIVE_LOCATION(location.id);
+        return _ctx.SET_ACTIVE_LOCATION(id);
       },
       onMouseleave: _cache[0] || (_cache[0] = function ($event) {
         return _ctx.SET_ACTIVE_LOCATION(false);
       }),
       onClick: function onClick($event) {
-        return _ctx.changeLocation(location.id);
+        return $options.test(id);
       }
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(location.name), 43
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(location), 43
     /* TEXT, CLASS, PROPS, HYDRATE_EVENTS */
     , _hoisted_1);
   }), 256
   /* UNKEYED_FRAGMENT */
   );
 }
+
+/***/ }),
+
+/***/ "./resources/js/api.js":
+/*!*****************************!*\
+  !*** ./resources/js/api.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _default)
+/* harmony export */ });
+/* harmony import */ var _api_ws_ws__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api/ws/ws */ "./resources/js/api/ws/ws.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+var DUPLICATE = '1';
+
+var _default = /*#__PURE__*/function () {
+  function _default() {
+    _classCallCheck(this, _default);
+
+    this.callbacks = {};
+    this.wsBind();
+  }
+
+  _createClass(_default, [{
+    key: "init",
+    value: function init() {
+      this.server = new _api_ws_ws__WEBPACK_IMPORTED_MODULE_0__.Server("ws://192.168.0.101:8080");
+      this.server.connectViaToken();
+    }
+  }, {
+    key: "send",
+    value: function send(data) {
+      this.server.send(data);
+    }
+  }, {
+    key: "message",
+    value: function message(response) {
+      // cl(response);
+      switch (response.data) {
+        case DUPLICATE:
+          if (this.isReconnect) {
+            this.isReconnect = false;
+          } else {
+            this.exit();
+          }
+
+          return;
+          break;
+      }
+
+      var data = JSON.parse(response.data);
+      var event = Object.keys(data)[0];
+      if (typeof this.callbacks[event] == "undefined") return;
+      this.callbacks[event].forEach(function (subscriber) {
+        subscriber.cb.call(subscriber.ctx, data[event]);
+      });
+    }
+  }, {
+    key: "chloc",
+    value: function chloc(locId) {
+      this.send({
+        chloc: locId
+      });
+    }
+  }, {
+    key: "sendMessage",
+    value: function sendMessage(message) {
+      this.send({
+        message: message
+      });
+    }
+  }, {
+    key: "handleMessage",
+    value: function handleMessage(message) {
+      switch (_typeof(message)) {
+        case 'string':
+          this.append(message);
+          break;
+
+        case 'object':
+          this.append("".concat(message.from, ": ").concat(message.text));
+          break;
+      }
+
+      this.scrollDown();
+    }
+  }, {
+    key: "scrollDown",
+    value: function scrollDown() {
+      this.$messages.scrollTop = this.$messages.scrollHeight;
+    }
+  }, {
+    key: "wsBind",
+    value: function wsBind() {
+      var ws = window.WebSocket;
+      var app = this;
+
+      window.WebSocket = function (a, b) {
+        var that = b ? new ws(a, b) : new ws(a);
+        ['message'].forEach(function (event) {
+          return that.addEventListener(event, app[event].bind(app));
+        }); // ['open', 'message', 'error', 'close'].forEach(event => that.addEventListener(event, app[event].bind(app)));
+
+        return that;
+      };
+
+      window.WebSocket.prototype = ws.prototype;
+    }
+  }, {
+    key: "subscribe",
+    value: function subscribe(event, cb, ctx) {
+      if (typeof this.callbacks[event] == "undefined") this.callbacks[event] = [];
+      this.callbacks[event].push({
+        cb: cb,
+        ctx: ctx
+      });
+    }
+  }]);
+
+  return _default;
+}();
+
+
+
+/***/ }),
+
+/***/ "./resources/js/api/ws/ws.js":
+/*!***********************************!*\
+  !*** ./resources/js/api/ws/ws.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Server": () => (/* binding */ Server)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../common.js */ "./resources/js/common.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+var Server = /*#__PURE__*/function () {
+  function Server(to, token) {
+    var tryConnection = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 3;
+
+    _classCallCheck(this, Server);
+
+    this.to = to;
+    this.token = token;
+    this.tryConnection = tryConnection;
+    this.isReconnect = false;
+  }
+
+  _createClass(Server, [{
+    key: "connect",
+    value: function connect() {
+      if (!this.tryConnection--) return;
+      this.server = new WebSocket("".concat(this.to).concat(this.token));
+    }
+  }, {
+    key: "connectViaToken",
+    value: function () {
+      var _connectViaToken = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var res, token;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return fetch('http://framework.loc/wsToken');
+
+              case 2:
+                res = _context.sent;
+                _context.next = 5;
+                return res.text();
+
+              case 5:
+                token = _context.sent;
+
+                if (!(res == 'error')) {
+                  _context.next = 10;
+                  break;
+                }
+
+                throw new Error('Session error');
+
+              case 10:
+                this.token = '/' + token;
+                cl(token);
+                this.connect();
+
+              case 13:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function connectViaToken() {
+        return _connectViaToken.apply(this, arguments);
+      }
+
+      return connectViaToken;
+    }()
+  }, {
+    key: "send",
+    value: function send(data) {
+      this.server.send(JSON.stringify(data));
+    }
+  }]);
+
+  return Server;
+}();
 
 /***/ }),
 
@@ -17970,20 +18364,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
 /* harmony import */ var _components_Game_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Game.vue */ "./resources/js/components/Game.vue");
-/* harmony import */ var _components_GameHeader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/GameHeader */ "./resources/js/components/GameHeader.vue");
-/* harmony import */ var _components_GameFooter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/GameFooter */ "./resources/js/components/GameFooter.vue");
-/* harmony import */ var _components_LocationWrapper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/LocationWrapper */ "./resources/js/components/LocationWrapper.vue");
-/* harmony import */ var _common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./common */ "./resources/js/common.js");
 
 
 
-
-
-
-
-console.log(_common__WEBPACK_IMPORTED_MODULE_6__.date('H:i:s'));
 var game = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({});
-game.use(_store__WEBPACK_IMPORTED_MODULE_1__.default).component('Game', _components_Game_vue__WEBPACK_IMPORTED_MODULE_2__.default).component('GameHeader', _components_GameHeader__WEBPACK_IMPORTED_MODULE_3__.default).component('GameFooter', _components_GameFooter__WEBPACK_IMPORTED_MODULE_4__.default).component('LocationWrapper', _components_LocationWrapper__WEBPACK_IMPORTED_MODULE_5__.default).mount('#game'); // require('./bootstrap');
+game.use(_store__WEBPACK_IMPORTED_MODULE_1__.default).component('Game', _components_Game_vue__WEBPACK_IMPORTED_MODULE_2__.default).mount('#game');
 
 /***/ }),
 
@@ -18172,7 +18557,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       state.location = location;
     },
     SET_CLOSEST_LOCATIONS: function SET_CLOSEST_LOCATIONS(state, closestLocations) {
-      state.closestLocations = sortClosestLocationsByType(closestLocations);
+      state.closestLocations = closestLocations; // state.closestLocations = sortClosestLocationsByType(closestLocations);
     },
     SET_ACTIVE_LOCATION: function SET_ACTIVE_LOCATION(state, activeLocation) {
       state.activeLocation = activeLocation;

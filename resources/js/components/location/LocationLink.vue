@@ -1,12 +1,12 @@
 <template>
     <div
-        v-for="location in closestLocations[type]"
-        :class="['link', 'loc-' + location.id, {active: activeLocation == location.id}]"
-        @mouseenter="SET_ACTIVE_LOCATION(location.id)"
+        v-for="(location, id) in closestLocations[type]"
+        :class="['link', 'loc-' + id, {active: activeLocation == id}]"
+        @mouseenter="SET_ACTIVE_LOCATION(id)"
         @mouseleave="SET_ACTIVE_LOCATION(false)"
-        @click="changeLocation(location.id)"
+        @click="test(id)"
     >
-        {{ location.name }}
+        {{ location }}
     </div>
 </template>
 
@@ -16,10 +16,15 @@ export default {
     name: "LocationLink",
 
     props: ['closestLocations', 'type'],
+    emits:['chloc'],
 
     methods: {
         ...mapMutations(['SET_ACTIVE_LOCATION']),
-        ...mapActions(['changeLocation']),
+        // ...mapActions(['changeLocation']),
+
+        test(id) {
+            this.$emit('chloc', id);
+        }
     },
 
     computed: {
@@ -27,6 +32,10 @@ export default {
             'activeLocation',
         ])
     },
+
+    mounted() {
+        // cl(this.closestLocations['location'])
+    }
 
 }
 </script>
