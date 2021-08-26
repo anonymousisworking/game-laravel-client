@@ -1,6 +1,7 @@
 <template>
     <div
         v-for="(location, id) in closestLocations[type]"
+        :key="'link-loc-' + id"
         :class="['link', 'loc-' + id, {active: activeLocation == id}]"
         @mouseenter="SET_ACTIVE_LOCATION(id)"
         @mouseleave="SET_ACTIVE_LOCATION(false)"
@@ -11,16 +12,15 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations, mapActions} from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
     name: "LocationLink",
 
     props: ['closestLocations', 'type'],
-    emits:['chloc'],
+    emits: ['chloc'],
 
     methods: {
         ...mapMutations(['SET_ACTIVE_LOCATION']),
-        // ...mapActions(['changeLocation']),
 
         test(id) {
             this.$emit('chloc', id);

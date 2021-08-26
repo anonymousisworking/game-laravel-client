@@ -1,28 +1,27 @@
 <template>
-    <game-header></game-header>
-    <location-wrapper @chloc="changeLocation"></location-wrapper>
-    <game-footer @sendMessage="sendMessage"></game-footer>
+	<game-header></game-header>
+	<location-wrapper @chloc="changeLocation"></location-wrapper>
+	<game-footer @sendMessage="sendMessage"></game-footer>
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 import GameHeader from './GameHeader'
 import GameFooter from './GameFooter'
 import LocationWrapper from './LocationWrapper'
-import Api from '../api.js';
+import Api from '../api/api.js';
 
-const api = new Api;
+const api = new Api();
 
 export default { 
 	data() {
-        return {
-        	
-        }
-    },
+		return {
+			
+		}
+	},
 
 	methods: {
-		// ...mapActions(['init']),
-		...mapMutations(['SET_CSRF', 'SET_USER', 'SET_LOCATION', 'SET_CLOSEST_LOCATIONS']),
+		...mapMutations(['SET_CSRF', 'SET_USER', 'SET_LOCATION', 'SET_CLOSEST_LOCATIONS', 'SET_LOCATION_USERS']),
 
 		changeLocation(locId) {
 			api.chloc(locId);
@@ -38,7 +37,6 @@ export default {
 
 		append(message) {
 			messages.innerHTML += `<div class="msg">${date('H:i:s')} ${message}</div>`;
-			// messages.append(`<div class="msg">${date('H:i:s')} ${message}</div>`);
 		}
 	},
 
@@ -55,15 +53,24 @@ export default {
 		}, this);
 
 		api.subscribe('loc', loc => {
-			this.SET_LOCATION(loc);
-			this.SET_CLOSEST_LOCATIONS(loc.closest_locs);
+			this.SET_LOCATION(loc.loc);
+			this.SET_LOCATION_USERS(loc.locUsers);
+			this.SET_CLOSEST_LOCATIONS(loc.closestLocs);
+		}, this);
+
+		api.subscribe('addLocUser', addLocUser => {
+			this.ADD_LOCATION_USER(loc_add_user);
+		}, this);
+
+		api.subscribe('leaveLocUser', userId => {
+			this.REMOVE_LOCATION_USER(userId);
 		}, this);
 
 		api.subscribe('message', message => {
 			switch (typeof message) {
-		    	case 'string': this.append(message);break;
-		    	case 'object': this.append(`${message.from}: ${message.text}`);break;
-		    }
+				case 'string': this.append(message); break;
+				case 'object': this.append(`${message.from}: ${message.text}`); break;
+			}
 			
 			this.scrollDown();
 		}, this);

@@ -23,7 +23,7 @@
             <div><img src="img/other/info.jpg" title="Анкета"></div>
         </div>
         <div id="dblog">
-            <div v-for="query in dbLog">
+            <div v-for="query in dbLog" :key="query">
                 {{ query.query }}; t::{{ query.time }}; b::{{ query.bindings }};
                 <hr>
             </div>
@@ -33,7 +33,7 @@
 
 <script>
 
-import {mapGetters, mapMutations} from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
     name: "GameHeader",
@@ -80,19 +80,17 @@ export default {
                 }
             }
 
-            let restoreSpeed = 1;
-            let minutesToMaxHp = 5;
-            let renderSpeed = 1 / 2;
+            const restoreSpeed = 1;
+            const minutesToMaxHp = 5;
+            const renderSpeed = 1 / 2;
             let endRestoreFlag	= false;
             const restoreOneSecond = maxHp / (minutesToMaxHp / restoreSpeed) / 60;
 
-            let HpRestore = hp(curHp, maxHp, lastRestore);
+            const HpRestore = hp(curHp, maxHp, lastRestore);
             const stop = HpRestore();
 
             if (!stop) {
                 const timer = setInterval(() => {
-
-                    // console.log(this.user);
                     if (HpRestore()) {
                         clearInterval(timer);
                     }
@@ -114,7 +112,7 @@ export default {
 
     watch: {
         user(user) {
-            console.log(user);
+            console.log('hpRegeneration');
             // if (user.curhp < user.maxhp) {
                 this.hpRegeneration(this.user.curhp, this.user.maxhp, this.user.last_restore);
             // }
@@ -123,6 +121,6 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+    
 </style>
