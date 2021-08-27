@@ -16,8 +16,8 @@
         </div>
         <button class="reset-hp" @click="reset">сбросить хп</button>
         <div class="top-panel flex">
-            <div><img src="img/other/pack.jpg" title="Рюкзак"></div>
-            <div><img src="img/other/location.jpg" title="Локация"></div>
+            <div><img src="img/other/pack.jpg" title="Рюкзак" @click="$emit('setCurComp', 'UserBackpack')"></div>
+            <div><img src="img/other/location.jpg" title="Локация" @click="$emit('setCurComp', 'LocationWrapper')"></div>
             <div><img src="img/other/fight.jpg" title="Бои"></div>
             <div><img src="img/other/quest.jpg" title="Квесты"></div>
             <div><img src="img/other/info.jpg" title="Анкета"></div>

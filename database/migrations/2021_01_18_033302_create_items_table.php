@@ -21,7 +21,7 @@ class CreateItemsTable extends Migration
             $table->unsignedInteger('count')->default(1);
             $table->unsignedInteger('enchant_level')->default(0);
             $table->enum('loc', ['INVENTORY', 'WEARING', 'BANK']);
-            $table->unsignedInteger('time_left')->index();
+            $table->unsignedInteger('time_left')->index()->nullable();
             $table->unsignedInteger('duration')->deafault(1)->nullable();
             $table->unsignedInteger('max_duration')->deafault(1)->nullable();
             $table->unsignedInteger('using')->nullable()->index();
@@ -29,7 +29,6 @@ class CreateItemsTable extends Migration
             $table->timestamps();
             $table->unique(['id', 'owner_id']);
             $table->unique(['owner_id', 'item_id']);
-            $table->unique(['owner_id', 'loc']);
             $table->unique(['owner_id', 'using']);
         });
     }

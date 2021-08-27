@@ -36,11 +36,18 @@ export class Server {
 export class WS {
   constructor() {
     this.eventHandlers = {};
+    this.wsEventHandlers = {}
     this.wsBind();
   }
 
   send(sendData) {
     this.server.send(sendData);
+  }
+
+  open() {
+    if (typeof this.wsEventHandlers.open !== "undefined") {
+      this.wsEventHandlers.open.forEach(callback => callback.cb.call(callback.ctx));
+    }
   }
 
   message(response) {
@@ -71,7 +78,7 @@ export class WS {
 
     window.WebSocket = function(a, b) {
       const that = b ? new WS(a, b) : new WS(a);
-      ['message'].forEach(event => that.addEventListener(event, app[event].bind(app)));
+      ['message', 'open'].forEach(event => that.addEventListener(event, app[event].bind(app)));
       // ['open', 'message', 'error', 'close'].forEach(event => that.addEventListener(event, app[event].bind(app)));
       return that;
     };
@@ -106,10 +113,20 @@ export class WS {
     this.send({ message });
   }
 
+  getBackPack() {
+    this.send({ getBackPack: true });
+  }
+
 
   // subscribe to events
   subscribe(event, cb, ctx) {
     if (typeof this.eventHandlers[event] === "undefined") this.eventHandlers[event] = [];
     this.eventHandlers[event].push({ cb, ctx });
+  }
+
+  // subscribe to browser ws events
+  subscribeToWS(event, cb, ctx) {
+    if (typeof this.wsEventHandlers[event] === "undefined") this.wsEventHandlers[event] = [];
+    this.wsEventHandlers[event].push({ cb, ctx });
   }
 }

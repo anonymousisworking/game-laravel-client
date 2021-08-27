@@ -10,7 +10,7 @@
             :points="coords"
             @mouseenter="SET_ACTIVE_LOCATION(index)"
             @mouseleave="SET_ACTIVE_LOCATION(false)"
-            @click="changeLocation(index)"
+            @click="$emit('chloc', index)"
           />
          </template>
         </svg>
@@ -54,7 +54,7 @@
 
 <script>
 
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import LocationLink from "./location/LocationLink";
 
 export default {
@@ -69,7 +69,12 @@ export default {
 
   methods: {
     ...mapMutations(['SET_ACTIVE_LOCATION']),
-    ...mapActions(['changeLocation']),
+    // ...mapActions(['changeLocation']),
+
+    setLocationImage(location) {
+      this.$refs.image.src = location.image == null ? 'img/other/no-image.png' 
+                                                    : 'img/locations/' + location.image;
+    }
   },
 
   computed: {
@@ -82,18 +87,13 @@ export default {
 
   watch: {
     location(location) {
-      this.$refs.image.src = location.image == null ? 'img/other/no-image.png' 
-                                                    : 'img/locations/' + location.image;
-    },
-
-    closestLocations(val) {
-      // cl(val);
+      this.setLocationImage(location);
     }
   },
 
 
   mounted() {
-
+    this.setLocationImage(this.location)
   }
 }
 </script>

@@ -5,7 +5,7 @@
     --color: #90ee90;
     // --color: #ff0;
     --color2: #bdecfb;
-    --chat-height: 300px;
+    --chat-height: 100px;
     --back: #fff;
     --back2: #f3f3f3;
 }
@@ -271,7 +271,7 @@ footer {
         height: 100%;
         overflow: auto;
 
-        .name {
+        .login {
             font-weight: bold;
             cursor: pointer;
         }
