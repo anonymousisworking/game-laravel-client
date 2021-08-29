@@ -16,7 +16,7 @@ class CreateAllitemsTable extends Migration
         Schema::create('allitems', function (Blueprint $table) {
             $table->smallIncrements('item_id');
             $table->string('name');
-            $table->enum('item_type', ['armor', 'weapon', 'potion', 'fish', 'herb', 'scroll', 'gift', 'none'])->nullable();
+            $table->enum('item_type', ['armor', 'weapon', 'potion', 'fish', 'plant', 'scroll', 'gift', 'trash', 'none'])->nullable();
             $table->enum('body_part', ['head', 'ear', 'neck', 'chest', 'gloves', 'finger', 'legs', 'feet', 'underwear', 'rhand', 'lhand', 'lrhand', 'none'])->nullable();
             $table->enum('armor_type', ['light', 'heavy', 'robe', 'none'])->nullable();
             $table->unsignedInteger('weight')->default(0);

@@ -178,7 +178,7 @@ class DatabaseSeeder extends Seeder
 				'price' => 0,
 			],[
 				'name' => 'Ботинок',
-				'item_type' => 'fish',
+				'item_type' => 'trash',
 				'body_part' => null,
 				'armor_type' => null,
 				'material' => null,
