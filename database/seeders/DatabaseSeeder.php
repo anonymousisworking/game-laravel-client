@@ -104,6 +104,114 @@ class DatabaseSeeder extends Seeder
 		    ],
 		]);
 
+		DB::table('allitems')->insert([
+			[
+				'name' => 'Накидка новичка',
+				'item_type' => 'armor',
+				'body_part' => 'underwear',
+				'armor_type' => 'robe',
+				'material' => 'cloth',
+				'min_damage' => 0,
+				'max_damage' => 0,
+				'power' => 0,
+				'critical' => 0,
+				'evasion' => 0,
+				'hp' => 3,
+				'image' => 'roba_0newbie.gif',
+				'price' => 0,
+			],[
+				'name' => 'Секира грозы',
+				'item_type' => 'weapon',
+				'body_part' => 'lrhand',
+				'armor_type' => null,
+				'material' => 'steel',
+				'min_damage' => 10,
+				'max_damage' => 20,
+				'power' => 5,
+				'power' => 5,
+				'critical' => 5,
+				'evasion' => 5,
+				'hp' => 100,
+				'image' => 'storm_ax.gif',
+				'price' => 9999,
+			],[
+				'name' => 'example',
+				'item_type' => null,
+				'body_part' => null,
+				'armor_type' => null,
+				'material' => null,
+				'min_damage' => 0,
+				'max_damage' => 0,
+				'power' => 0,
+				'critical' => 0,
+				'evasion' => 0,
+				'hp' => 0,
+				'image' => null,
+				'price' => 0,
+			],[
+				'name' => 'Подарок',
+				'item_type' => 'gift',
+				'body_part' => null,
+				'armor_type' => null,
+				'material' => null,
+				'min_damage' => 0,
+				'max_damage' => 0,
+				'power' => 0,
+				'critical' => 0,
+				'evasion' => 0,
+				'hp' => 0,
+				'image' => 'klever.gif',
+				'price' => 0,
+			],[
+				'name' => 'Эликсир жизни',
+				'item_type' => 'potion',
+				'body_part' => null,
+				'armor_type' => null,
+				'material' => null,
+				'min_damage' => 0,
+				'max_damage' => 0,
+				'power' => 0,
+				'critical' => 0,
+				'evasion' => 0,
+				'hp' => 0,
+				'image' => 'life_potion.gif',
+				'price' => 0,
+			],[
+				'name' => 'Ботинок',
+				'item_type' => 'fish',
+				'body_part' => null,
+				'armor_type' => null,
+				'material' => null,
+				'min_damage' => 0,
+				'max_damage' => 0,
+				'power' => 0,
+				'critical' => 0,
+				'evasion' => 0,
+				'hp' => 0,
+				'image' => 'fishboot.gif',
+				'price' => 0,
+			],
+		]);
+
+		DB::table('items')->insert([
+			[
+				'owner_id' => 1,
+				'item_id' => 1,
+			],[
+				'owner_id' => 1,
+				'item_id' => 2,
+			],[
+				'owner_id' => 1,
+				'item_id' => 4,
+			],[
+				'owner_id' => 1,
+				'item_id' => 5,
+			],[
+				'owner_id' => 1,
+				'item_id' => 6,
+			],
+		]);
+
 		// Add locations access
         // DB::table('locations_access')->insert([
         	// // Торговая площадь
