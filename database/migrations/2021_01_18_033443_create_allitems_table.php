@@ -17,7 +17,7 @@ class CreateAllitemsTable extends Migration
             $table->smallIncrements('item_id');
             $table->string('name');
             $table->enum('item_type', ['armor', 'weapon', 'potion', 'fish', 'plant', 'scroll', 'gift', 'trash', 'none'])->nullable();
-            $table->enum('body_part', ['head', 'ear', 'neck', 'chest', 'gloves', 'finger', 'legs', 'feet', 'underwear', 'rhand', 'lhand', 'lrhand', 'none'])->nullable();
+            $table->enum('body_part', ['head', 'ear', 'neck', 'chest', 'gloves', 'finger', 'legs', 'feet', 'underwear', 'rhand', 'lhand', 'dblhand', 'none'])->nullable();
             $table->enum('armor_type', ['light', 'heavy', 'robe', 'none'])->nullable();
             $table->unsignedInteger('weight')->default(0);
             $table->enum('material', ['cloth', 'leather', 'wood', 'steel', 'none'])->nullable();

@@ -44,7 +44,7 @@ class CreateUsersTable extends Migration
             $table->integer('draw')->unsigned()->default(0);
             $table->integer('rhand')->unsigned()->nullable();
             $table->integer('lhand')->unsigned()->nullable();
-            $table->integer('lrhand')->unsigned()->nullable();
+            $table->integer('dblhand')->unsigned()->nullable();
             $table->integer('request')->unsigned()->nullable()->index();
             $table->boolean('fight')->unsigned()->default(0)->nullable();
             $table->integer('combat')->unsigned()->index()->nullable();
