@@ -25,6 +25,8 @@ class CreateUsersTable extends Migration
             $table->integer('critical')->unsigned()->default(3);
             $table->integer('evasion')->unsigned()->default(3);
             $table->integer('stamina')->unsigned()->default(3);
+            // $table->integer('min_damage')->unsigned()->default(0);
+            // $table->integer('max_damage')->unsigned()->default(0);
             $table->float('curhp', 10, 3)->default(2)->unsigned();
             $table->integer('maxhp')->unsigned()->default(18);
             $table->integer('last_restore')->default(time())->unsigned();

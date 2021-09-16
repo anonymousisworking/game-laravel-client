@@ -117,6 +117,7 @@ class DatabaseSeeder extends Seeder
 				'power' => 1,
 				'critical' => 0,
 				'evasion' => 0,
+				'stamina' => 1,
 				'hp' => 3,
 				'image' => '1.jpg',
 				'price' => 0,
@@ -132,6 +133,7 @@ class DatabaseSeeder extends Seeder
 				'power' => 0,
 				'critical' => 1,
 				'evasion' => 0,
+				'stamina' => 0,
 				'hp' => 10,
 				'image' => '2.jpg',
 				'price' => 0,
@@ -147,6 +149,7 @@ class DatabaseSeeder extends Seeder
 				'power' => 0,
 				'critical' => 0,
 				'evasion' => 0,
+				'stamina' => 0,
 				'hp' => 3,
 				'image' => '3.jpg',
 				'price' => 0,
@@ -162,6 +165,7 @@ class DatabaseSeeder extends Seeder
 				'power' => 0,
 				'critical' => 0,
 				'evasion' => 0,
+				'stamina' => 0,
 				'hp' => 3,
 				'image' => '4.jpg',
 				'price' => 0,
@@ -177,6 +181,7 @@ class DatabaseSeeder extends Seeder
 				'power' => 0,
 				'critical' => 0,
 				'evasion' => 0,
+				'stamina' => 0,
 				'hp' => 3,
 				'image' => '5.jpg',
 				'price' => 0,
@@ -192,6 +197,7 @@ class DatabaseSeeder extends Seeder
 				'power' => 1,
 				'critical' => 1,
 				'evasion' => 0,
+				'stamina' => 0,
 				'hp' => 3,
 				'image' => '6.jpg',
 				'price' => 0,
@@ -208,6 +214,7 @@ class DatabaseSeeder extends Seeder
 				'power' => 5,
 				'critical' => 5,
 				'evasion' => 5,
+				'stamina' => 0,
 				'hp' => 100,
 				'image' => 'storm_ax.gif',
 				'price' => 9999,
@@ -223,6 +230,7 @@ class DatabaseSeeder extends Seeder
 				'power' => 0,
 				'critical' => 0,
 				'evasion' => 0,
+				'stamina' => 0,
 				'hp' => 0,
 				'image' => null,
 				'price' => 0,
@@ -238,6 +246,7 @@ class DatabaseSeeder extends Seeder
 				'power' => 0,
 				'critical' => 0,
 				'evasion' => 0,
+				'stamina' => 0,
 				'hp' => 0,
 				'image' => 'klever.gif',
 				'price' => 0,
@@ -253,6 +262,7 @@ class DatabaseSeeder extends Seeder
 				'power' => 0,
 				'critical' => 0,
 				'evasion' => 0,
+				'stamina' => 0,
 				'hp' => 0,
 				'image' => 'life_potion.gif',
 				'price' => 0,
@@ -268,6 +278,7 @@ class DatabaseSeeder extends Seeder
 				'power' => 0,
 				'critical' => 0,
 				'evasion' => 0,
+				'stamina' => 0,
 				'hp' => 0,
 				'image' => 'fishboot.gif',
 				'price' => 0,
@@ -295,6 +306,39 @@ class DatabaseSeeder extends Seeder
 				'item_id' => 6,
 			],
 		]);
+
+
+
+
+        DB::table('npc')->insert([
+            [
+                'name' => 'Ящер', 
+                'level' => 0,
+                'sex' => 0,
+                'curhp' => 0,
+                'maxhp' => 0,
+                'power' => 0,
+                'critical' => 0,
+                'evasion' => 0,
+                'stamina' => 0,
+                'image' => 'yashcher.jpg',
+            ]
+        ]);
+
+        
+
+        DB::table('spawnlist')->insert([
+            [
+                'npc_id' => 1, 
+                'loc_id' => 1,
+            ],[
+                'npc_id' => 1, 
+                'loc_id' => 1,
+            ],[
+                'npc_id' => 1, 
+                'loc_id' => 6,
+            ],
+        ]);
 
 		// Add locations access
         // DB::table('locations_access')->insert([
