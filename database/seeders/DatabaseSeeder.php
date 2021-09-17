@@ -20,19 +20,23 @@ class DatabaseSeeder extends Seeder
 
     	// Add Admin user
         DB::table('users')->insert([
-		    [
-		    	'login' => 'Admin', 
-		   		'email' => 'admin@game.test', 
-		   		'password' => '$2y$10$O8h8IC79WyN0cHQUHmeGlujPiDe.26U3hxGhnRngmMZ2PeIIxfcFe', 
-		   		'sex' => 0
-		   	],
-			[
-		    	'login' => 'Tester', 
-		   		'email' => 'tester@game.test', 
-		   		'password' => '$2y$10$O8h8IC79WyN0cHQUHmeGlujPiDe.26U3hxGhnRngmMZ2PeIIxfcFe', 
-		   		'sex' => 1
-		   	],
-		]);
+			    [
+			    	'login' => 'Admin', 
+			   		'email' => 'admin@game.test', 
+			   		'password' => '$2y$10$O8h8IC79WyN0cHQUHmeGlujPiDe.26U3hxGhnRngmMZ2PeIIxfcFe', 
+			   		'sex' => 0,
+			   		'access_level' => 1
+			   	],
+				]);
+
+				DB::table('users')->insert([
+			    [
+			    	'login' => 'Tester', 
+			   		'email' => 'tester@game.test', 
+			   		'password' => '$2y$10$O8h8IC79WyN0cHQUHmeGlujPiDe.26U3hxGhnRngmMZ2PeIIxfcFe', 
+			   		'sex' => 1
+			   	],
+				]);
 
 
         // Add Locations
