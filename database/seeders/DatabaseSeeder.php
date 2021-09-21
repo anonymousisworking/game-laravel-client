@@ -308,6 +308,15 @@ class DatabaseSeeder extends Seeder
 			],[
 				'owner_id' => 1,
 				'item_id' => 6,
+			],[
+				'owner_id' => 1,
+				'item_id' => 9,
+			],[
+				'owner_id' => 1,
+				'item_id' => 10,
+			],[
+				'owner_id' => 1,
+				'item_id' => 11,
 			],
 		]);
 
@@ -319,12 +328,12 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Ящер', 
                 'level' => 0,
                 'sex' => 0,
-                'curhp' => 0,
-                'maxhp' => 0,
-                'power' => 0,
-                'critical' => 0,
-                'evasion' => 0,
-                'stamina' => 0,
+                'curhp' => 18,
+                'maxhp' => 18,
+                'power' => 5,
+                'critical' => 5,
+                'evasion' => 5,
+                'stamina' => 3,
                 'image' => 'yashcher.jpg',
             ]
         ]);
