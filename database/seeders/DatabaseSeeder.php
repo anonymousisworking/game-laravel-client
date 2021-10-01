@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
 					"6": "30,220 34,217 34,204 27,204 22,201 26,198 33,198 31,191 37,188 41,193 39,200 39,217 45,221 32,222",
 					"7": "418,165 419,156 413,159 410,154 419,147 417,141 421,139 423,146 430,145 435,148 425,154 425,164 422,167"}
 				',
-				'loc_access' => '[2,3,4,5,6,7]'
+					'loc_access' => '[2,3,4,5,6,7]'
 		    ],
 		    [
 		    	'id' => 2,
@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
 		    	'type' => 'location',
 		    	'image' => 'battle-tower.jpg', 
 		    	'loc_coords' => null,
-				'loc_access' => '[1]'
+					'loc_access' => '[1]'
 		    ],
 		    [
 		    	'id' => 3,
@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
 		    	'type' => 'object',
 		    	'image' => null, 
 		    	'loc_coords' => null,
-				'loc_access' => '[1]'
+					'loc_access' => '[1]'
 		    ],
 		    [
 		    	'id' => 4,
@@ -78,7 +78,7 @@ class DatabaseSeeder extends Seeder
 		    	'type' => 'object',
 		    	'image' => null, 
 		    	'loc_coords' => null,
-				'loc_access' => '[1]'
+					'loc_access' => '[1]'
 		    ],
 		    [
 		    	'id' => 5,
@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
 		    	'type' => 'character',
 		    	'image' => null, 
 		    	'loc_coords' => null,
-				'loc_access' => '[1]'
+					'loc_access' => '[1]'
 		    ],
 		    [
 		    	'id' => 6,
@@ -96,7 +96,7 @@ class DatabaseSeeder extends Seeder
 		    	'loc_coords' => '{
 					"1": "169,192 182,184 185,168 177,154 140,154 125,173 124,182 163,196"
 				}',
-				'loc_access' => '[1]'
+					'loc_access' => '[1]'
 		    ],
 		    [
 		    	'id' => 7,
@@ -104,7 +104,7 @@ class DatabaseSeeder extends Seeder
 		    	'type' => 'location',
 		    	'image' => 'forest.jpg', 
 		    	'loc_coords' => null,
-				'loc_access' => '[1]'
+					'loc_access' => '[1]'
 		    ],
 		]);
 
@@ -116,6 +116,7 @@ class DatabaseSeeder extends Seeder
 				'body_part' => 'head',
 				'armor_type' => 'heavy',
 				'material' => 'steel',
+				'need_level' => 5,
 				'min_damage' => 0,
 				'max_damage' => 0,
 				'power' => 1,
@@ -132,6 +133,7 @@ class DatabaseSeeder extends Seeder
 				'body_part' => 'chest',
 				'armor_type' => 'heavy',
 				'material' => 'steel',
+				'need_level' => 1,
 				'min_damage' => 0,
 				'max_damage' => 0,
 				'power' => 0,
@@ -148,6 +150,7 @@ class DatabaseSeeder extends Seeder
 				'body_part' => 'legs',
 				'armor_type' => 'heavy',
 				'material' => 'steel',
+				'need_level' => 1,
 				'min_damage' => 0,
 				'max_damage' => 0,
 				'power' => 0,
@@ -164,6 +167,7 @@ class DatabaseSeeder extends Seeder
 				'body_part' => 'gloves',
 				'armor_type' => 'heavy',
 				'material' => 'steel',
+				'need_level' => 5,
 				'min_damage' => 0,
 				'max_damage' => 0,
 				'power' => 0,
@@ -180,6 +184,7 @@ class DatabaseSeeder extends Seeder
 				'body_part' => 'feet',
 				'armor_type' => 'heavy',
 				'material' => 'steel',
+				'need_level' => 3,
 				'min_damage' => 0,
 				'max_damage' => 0,
 				'power' => 0,
@@ -196,6 +201,7 @@ class DatabaseSeeder extends Seeder
 				'body_part' => 'rhand',
 				'armor_type' => null,
 				'material' => 'steel',
+				'need_level' => 2,
 				'min_damage' => 5,
 				'max_damage' => 5,
 				'power' => 1,
@@ -212,6 +218,7 @@ class DatabaseSeeder extends Seeder
 				'body_part' => 'dblhand',
 				'armor_type' => null,
 				'material' => 'steel',
+				'need_level' => 1,
 				'min_damage' => 10,
 				'max_damage' => 20,
 				'power' => 5,
@@ -229,6 +236,7 @@ class DatabaseSeeder extends Seeder
 				'body_part' => null,
 				'armor_type' => null,
 				'material' => null,
+				'need_level' => 0,
 				'min_damage' => 0,
 				'max_damage' => 0,
 				'power' => 0,
@@ -245,6 +253,7 @@ class DatabaseSeeder extends Seeder
 				'body_part' => null,
 				'armor_type' => null,
 				'material' => null,
+				'need_level' => 0,
 				'min_damage' => 0,
 				'max_damage' => 0,
 				'power' => 0,
@@ -261,6 +270,7 @@ class DatabaseSeeder extends Seeder
 				'body_part' => null,
 				'armor_type' => null,
 				'material' => null,
+				'need_level' => 0,
 				'min_damage' => 0,
 				'max_damage' => 0,
 				'power' => 0,
@@ -277,6 +287,7 @@ class DatabaseSeeder extends Seeder
 				'body_part' => null,
 				'armor_type' => null,
 				'material' => null,
+				'need_level' => 0,
 				'min_damage' => 0,
 				'max_damage' => 0,
 				'power' => 0,

@@ -19,9 +19,9 @@ class CreateAllitemsTable extends Migration
             $table->enum('item_type', ['armor', 'weapon', 'potion', 'fish', 'plant', 'scroll', 'gift', 'trash', 'none'])->nullable();
             $table->enum('body_part', ['head', 'ear', 'neck', 'chest', 'gloves', 'finger', 'legs', 'feet', 'underwear', 'rhand', 'lhand', 'dblhand', 'none'])->nullable();
             $table->enum('armor_type', ['light', 'heavy', 'robe', 'none'])->nullable();
-            $table->unsignedInteger('weight')->default(0);
+            $table->unsignedInteger('weight')->default(1);
             $table->enum('material', ['cloth', 'leather', 'wood', 'steel', 'none'])->nullable();
-            $table->unsignedInteger('need_level')->default(0);
+            $table->unsignedInteger('need_level')->default(1);
             // $table->unsignedInteger('need_power')->default(0);
             // $table->unsignedInteger('need_crit')->default(0);
             // $table->unsignedInteger('need_evas')->default(0);
