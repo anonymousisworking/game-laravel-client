@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use DB;
 
+
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -25,7 +27,8 @@ class DatabaseSeeder extends Seeder
 			   		'email' => 'admin@game.test', 
 			   		'password' => '$2y$10$O8h8IC79WyN0cHQUHmeGlujPiDe.26U3hxGhnRngmMZ2PeIIxfcFe', 
 			   		'sex' => 0,
-			   		'access_level' => 1
+			   		'super_hits' => generateSuperHit(),
+			   		'access_level' => 1,
 			   	],
 				]);
 
@@ -34,7 +37,8 @@ class DatabaseSeeder extends Seeder
 			    	'login' => 'Tester', 
 			   		'email' => 'tester@game.test', 
 			   		'password' => '$2y$10$O8h8IC79WyN0cHQUHmeGlujPiDe.26U3hxGhnRngmMZ2PeIIxfcFe', 
-			   		'sex' => 1
+			   		'sex' => 1,
+			   		'super_hits' => generateSuperHit(),
 			   	],
 				]);
 
@@ -432,4 +436,64 @@ class DatabaseSeeder extends Seeder
 		// ]);
 
     }
+}
+
+function generateSuperHit()
+{
+	$level = 1;
+	$existingSuperHits = [];
+	$superHitSteps = [
+		1 => 2,
+		2 => 3,
+		3 => 4,
+		4 => 4,
+		5 => 5,
+		6 => 5,
+		7 => 6,
+		8 => 6,
+		9 => 7,
+		10 => 7,
+	];
+
+	$generatedSuperHit = [];
+	$needSteps = $superHitSteps[$level];
+	$step = 1;
+	$duplicate = true;
+	$requiredSteps = 0;
+
+	do {
+		for ($i = 0; $i < $needSteps; $i++) {
+			$generatedSuperHit[$i] = mt_rand(1, 3);
+		}
+
+		$duplicate = false;
+		$superHitLength = count($generatedSuperHit);
+
+		foreach ($existingSuperHits as $hitLevel => $sh) {
+			// Проверяем по кускам. Пример: [1, 2, 3] разбиваем по [1, 2] & [2, 3] и сверяем
+			for ($chunkOffset = 0; $superHitSteps[$hitLevel] + $chunkOffset <= $superHitLength; $chunkOffset++) {
+				$checkSteps = array_slice($generatedSuperHit, $chunkOffset, $superHitSteps[$hitLevel]);
+
+				if (join('.', $checkSteps) == join('.', $existingSuperHits[$hitLevel]['hit'])) {
+					// d('duplicate: ' . json_encode($generatedSuperHit));
+					$duplicate = true;
+					break 2;
+				}
+			}
+		}
+
+		if ($requiredSteps > 500) {
+			d('Too many attempts for generating super hit!');
+			return;
+		}
+		$requiredSteps++;
+
+	} while ($duplicate);
+
+	$existingSuperHits[$level] = [
+		'hit' => $generatedSuperHit,
+		'open' => false
+	];
+
+	return json_encode($existingSuperHits);
 }

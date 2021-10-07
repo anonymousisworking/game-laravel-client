@@ -51,6 +51,7 @@ class CreateUsersTable extends Migration
             $table->integer('request')->unsigned()->nullable()->index();
             $table->boolean('fight')->unsigned()->default(0)->nullable()->index();
             $table->integer('combat')->unsigned()->nullable()->index();
+            $table->json('super_hits');
             $table->tinyInteger('team')->unsigned()->nullable();
             $table->string('image')->nullable();
             $table->string('title')->nullable();
