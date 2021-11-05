@@ -98,9 +98,9 @@ class DatabaseSeeder extends Seeder
 		    ],
 		    [
 		    	'id' => 5,
-		    	'name' => 'Фонтан',
+		    	'name' => 'Статуя древнего воина',
 		    	'type' => 'character',
-		    	'image' => null,
+		    	'image' => 'warrior-statue.jpg',
 		    	'loc_coords' => null,
 					'loc_access' => '[1]'
 		    ],
@@ -228,24 +228,6 @@ class DatabaseSeeder extends Seeder
 				'image' => '6.jpg',
 				'price' => 0,
 			],[
-				'item_id' => 7,
-				'name' => 'Секира грозы',
-				'item_type' => 'weapon',
-				'body_part' => 'dblhand',
-				'armor_type' => null,
-				'material' => 'steel',
-				'need_level' => 1,
-				'min_damage' => 10,
-				'max_damage' => 20,
-				'power' => 5,
-				'power' => 5,
-				'critical' => 5,
-				'evasion' => 5,
-				'stamina' => 0,
-				'hp' => 100,
-				'image' => 'storm_ax.gif',
-				'price' => 9999,
-			],[
 				'item_id' => 8,
 				'name' => 'example',
 				'item_type' => null,
@@ -294,7 +276,7 @@ class DatabaseSeeder extends Seeder
 				'evasion' => 0,
 				'stamina' => 0,
 				'hp' => 0,
-				'image' => 'life_potion.gif',
+				'image' => 'life_potion.jpg',
 				'price' => 0,
 			],[
 				'item_id' => 11,
@@ -313,7 +295,24 @@ class DatabaseSeeder extends Seeder
 				'hp' => 0,
 				'image' => 'fishboot.gif',
 				'price' => 0,
-			],
+			],[
+                'item_id' => 12,
+                'name' => 'Копье ящера',
+                'item_type' => 'quest',
+                'body_part' => null,
+                'armor_type' => null,
+                'material' => null,
+                'need_level' => 0,
+                'min_damage' => 0,
+                'max_damage' => 0,
+                'power' => 0,
+                'critical' => 0,
+                'evasion' => 0,
+                'stamina' => 0,
+                'hp' => 0,
+                'image' => 'spear.gif',
+                'price' => 0,
+            ],
 		]);
 
 		DB::table('items')->insert([
@@ -348,13 +347,13 @@ class DatabaseSeeder extends Seeder
 		]);
 
 
-
-
         DB::table('npc')->insert([
             [
+                'id' => 1,
                 'name' => 'Ящер',
-                'level' => 0,
+                'level' => 1,
                 'sex' => 0,
+                // 'type' => 'monster',
                 'curhp' => 18,
                 'maxhp' => 18,
                 'power' => 5,
@@ -362,91 +361,58 @@ class DatabaseSeeder extends Seeder
                 'evasion' => 5,
                 'stamina' => 3,
                 'image' => 'yashcher.jpg',
-            ]
+            ],
+            [
+                'id' => 2,
+                'name' => 'Волк',
+                'level' => 1,
+                'sex' => 0,
+                // 'type' => 'monster',
+                'curhp' => 18,
+                'maxhp' => 18,
+                'power' => 5,
+                'critical' => 5,
+                'evasion' => 5,
+                'stamina' => 3,
+                'image' => 'wolf.jpg',
+            ],
+            [
+                'id' => 3,
+                'name' => 'Скелет',
+                'level' => 2,
+                'sex' => 0,
+                // 'type' => 'monster',
+                'curhp' => 30,
+                'maxhp' => 30,
+                'power' => 10,
+                'critical' => 10,
+                'evasion' => 10,
+                'stamina' => 10,
+                'image' => 'skeleton.jpg',
+            ],
         ]);
 
 
 
         DB::table('spawnlist')->insert([
-            [
-                'npc_id' => 1,
-                'loc_id' => 1,
-            ],[
-                'npc_id' => 1,
-                'loc_id' => 1,
-            ],[
-                'npc_id' => 1,
-                'loc_id' => 6,
-            ],
+            ['npc_id' => 1,'loc_id' => 1],
+            ['npc_id' => 1,'loc_id' => 1],
+            ['npc_id' => 1,'loc_id' => 1],
+        ]);
+        DB::table('spawnlist')->insert([
+            ['npc_id' => 2,'loc_id' => 7],
+            ['npc_id' => 2,'loc_id' => 7],
+            ['npc_id' => 2,'loc_id' => 7],
         ]);
 
-		// Add locations access
-        // DB::table('locations_access')->insert([
-        	// // Торговая площадь
-		    // [
-		    	// 'loc_id' => 1,
-		    	// 'access_loc_id' => 2,
-		   	// ],
-		   	// [
-		    	// 'loc_id' => 1,
-		    	// 'access_loc_id' => 3,
-		   	// ],
-		   	// [
-		    	// 'loc_id' => 1,
-		    	// 'access_loc_id' => 4,
-		   	// ],
-		   	// [
-		    	// 'loc_id' => 1,
-		    	// 'access_loc_id ' => 5,
-		   	// ],
-		   	// [
-		    	// 'loc_id' => 1,
-		    	// 'access_loc_id ' => 6,
-		   	// ],
-		   	// [
-		    	// 'loc_id' => 1,
-		    	// 'access_loc_id ' => 7,
-		   	// ],
+        DB::table('spawnlist')->insert([
+            ['npc_id' => 3,'loc_id' => 6],
+            ['npc_id' => 3,'loc_id' => 6],
+        ]);
 
-        	// // Башня сражений
-		   	// [
-		    	// 'loc_id' => 2,
-		    	// 'access_loc_id ' => 1,
-		   	// ],
-
-        	// // Магазин
-		   	// [
-		    	// 'loc_id' => 3,
-		    	// 'access_loc_id ' => 1,
-		   	// ],
-
-		   	// // Банк
-		   	// [
-		    	// 'loc_id' => 4,
-		    	// 'access_loc_id ' => 1,
-		   	// ],
-
-
-			// // Фонтан
-		   	// [
-		    	// 'loc_id' => 5,
-		    	// 'access_loc_id ' => 1,
-		   	// ],
-
-		   	// // Озеро
-		   	// [
-		    	// 'loc_id' => 6,
-		    	// 'access_loc_id ' => 1,
-		   	// ],
-
-		   	// // Лес
-		   	// [
-		    	// 'loc_id' => 7,
-		    	// 'access_loc_id ' => 1,
-		   	// ],
-
-		// ]);
-
+        DB::table('quests')->insert([
+            ['id' => 1, 'name' => 'Нашествие ящеров', 'level' => 1, 'npc_id' => 5, 'data' => '{"steps":{"0":{"text":"Здравствуй, храбрый воин. Наш город поддался нашествию этих враждебных ящеров и нам нужна любая помощь в борьбе с ними. Присоединишься к борьбе?","answers":{"1":"Да, я постараюсь помочь с нашествием ящеров.","2":"Не сейчас"}},"1":{"text":"Это поднимает наш общий боевой дух. Принеси мне 5 пик этих злобных ящеров и я отблагодарю тебя."},"2":{"text":"Мы будем ждать твоей помощи, когда ты будешь готов."}},"do":{"text":"Ты еще не собрал 5 пик ящеров."},"done":{"text":"Ты славно дрался, воин. Ты заслужил награду. Возьми эти эликсиры жизни, пускай они тебе пригодятся в нелегком бою.","reward":[{"id":10,"count":2}]},"condition":{"done":{"id":12,"count":5}}}'],
+        ]);
     }
 }
 

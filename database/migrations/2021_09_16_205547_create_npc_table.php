@@ -18,6 +18,7 @@ class CreateNpcTable extends Migration
             $table->string('name');
             $table->string('level');
             $table->string('sex');
+            // $table->string('type', ['npc', 'monster']);
             $table->integer('curhp')->unsigned();
             $table->integer('maxhp')->unsigned();
             $table->integer('power')->unsigned();
