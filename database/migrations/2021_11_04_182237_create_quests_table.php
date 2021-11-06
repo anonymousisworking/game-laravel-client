@@ -16,8 +16,8 @@ class CreateQuestsTable extends Migration
         Schema::create('quests', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('level');
-            $table->integer('npc_id')->index();
+            $table->integer('level')->unsigned();
+            $table->integer('npc_id')->unsigned()->index();
             $table->json('data');
             $table->timestamps();
         });

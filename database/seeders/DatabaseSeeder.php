@@ -30,6 +30,9 @@ class DatabaseSeeder extends Seeder
                 'clan' => 1,
     	   		'super_hits' => generateSuperHit(),
     	   		'access_level' => 1,
+                'curhp' => 100,
+                'maxhp' => 100,
+                'power' => 15,
     	   	],
 		]);
 
@@ -124,9 +127,18 @@ class DatabaseSeeder extends Seeder
 		    ],
 		]);
 
+        DB::table('allitems')->insert([
+            [
+                'item_id' => 1,
+                'name' => 'Золото',
+                'item_type' => 'money',
+                'stackable' => 1,
+            ]
+        ]);
+
 		DB::table('allitems')->insert([
 			[
-				'item_id' => 1,
+				'item_id' => 20,
 				'name' => 'Шлем рыцаря',
 				'item_type' => 'armor',
 				'body_part' => 'head',
@@ -143,7 +155,7 @@ class DatabaseSeeder extends Seeder
 				'image' => '1.jpg',
 				'price' => 0,
 			],[
-				'item_id' => 2,
+				'item_id' => 21,
 				'name' => 'Нагрудник рыцаря',
 				'item_type' => 'armor',
 				'body_part' => 'chest',
@@ -160,7 +172,7 @@ class DatabaseSeeder extends Seeder
 				'image' => '2.jpg',
 				'price' => 0,
 			],[
-				'item_id' => 3,
+				'item_id' => 22,
 				'name' => 'Поножи рыцаря',
 				'item_type' => 'armor',
 				'body_part' => 'legs',
@@ -177,7 +189,7 @@ class DatabaseSeeder extends Seeder
 				'image' => '3.jpg',
 				'price' => 0,
 			],[
-				'item_id' => 4,
+				'item_id' => 23,
 				'name' => 'Перчатки рыцаря',
 				'item_type' => 'armor',
 				'body_part' => 'gloves',
@@ -194,7 +206,7 @@ class DatabaseSeeder extends Seeder
 				'image' => '4.jpg',
 				'price' => 0,
 			],[
-				'item_id' => 5,
+				'item_id' => 24,
 				'name' => 'Сапоги рыцаря',
 				'item_type' => 'armor',
 				'body_part' => 'feet',
@@ -211,24 +223,7 @@ class DatabaseSeeder extends Seeder
 				'image' => '5.jpg',
 				'price' => 0,
 			],[
-				'item_id' => 6,
-				'name' => 'Кинжал рыцаря',
-				'item_type' => 'weapon',
-				'body_part' => 'rhand',
-				'armor_type' => null,
-				'material' => 'steel',
-				'need_level' => 2,
-				'min_damage' => 5,
-				'max_damage' => 5,
-				'power' => 1,
-				'critical' => 1,
-				'evasion' => 0,
-				'stamina' => 0,
-				'hp' => 3,
-				'image' => '6.jpg',
-				'price' => 0,
-			],[
-				'item_id' => 8,
+				'item_id' => 28,
 				'name' => 'example',
 				'item_type' => null,
 				'body_part' => null,
@@ -244,107 +239,98 @@ class DatabaseSeeder extends Seeder
 				'hp' => 0,
 				'image' => null,
 				'price' => 0,
-			],[
-				'item_id' => 9,
-				'name' => 'Подарок',
-				'item_type' => 'gift',
-				'body_part' => null,
-				'armor_type' => null,
-				'material' => null,
-				'need_level' => 0,
-				'min_damage' => 0,
-				'max_damage' => 0,
-				'power' => 0,
-				'critical' => 0,
-				'evasion' => 0,
-				'stamina' => 0,
-				'hp' => 0,
-				'image' => 'klever.gif',
-				'price' => 0,
-			],[
-				'item_id' => 10,
-				'name' => 'Эликсир жизни',
-				'item_type' => 'potion',
-				'body_part' => null,
-				'armor_type' => null,
-				'material' => null,
-				'need_level' => 0,
-				'min_damage' => 0,
-				'max_damage' => 0,
-				'power' => 0,
-				'critical' => 0,
-				'evasion' => 0,
-				'stamina' => 0,
-				'hp' => 0,
-				'image' => 'life_potion.jpg',
-				'price' => 0,
-			],[
-				'item_id' => 11,
-				'name' => 'Ботинок',
-				'item_type' => 'trash',
-				'body_part' => null,
-				'armor_type' => null,
-				'material' => null,
-				'need_level' => 0,
-				'min_damage' => 0,
-				'max_damage' => 0,
-				'power' => 0,
-				'critical' => 0,
-				'evasion' => 0,
-				'stamina' => 0,
-				'hp' => 0,
-				'image' => 'fishboot.gif',
-				'price' => 0,
-			],[
-                'item_id' => 12,
-                'name' => 'Копье ящера',
-                'item_type' => 'quest',
-                'body_part' => null,
+			],
+		]);
+
+        DB::table('allitems')->insert([
+            [
+                'item_id' => 25,
+                'name' => 'Кинжал рыцаря',
+                'item_type' => 'weapon',
+                'body_part' => 'rhand',
                 'armor_type' => null,
-                'material' => null,
-                'need_level' => 0,
-                'min_damage' => 0,
-                'max_damage' => 0,
-                'power' => 0,
-                'critical' => 0,
+                'material' => 'steel',
+                'need_level' => 2,
+                'min_damage' => 5,
+                'max_damage' => 5,
+                'power' => 1,
+                'critical' => 1,
                 'evasion' => 0,
                 'stamina' => 0,
-                'hp' => 0,
-                'image' => 'spear.gif',
+                'hp' => 3,
+                'image' => '6.jpg',
                 'price' => 0,
+                'enchantable' => 1,
+            ]
+        ]);
+
+        DB::table('allitems')->insert([
+            [
+                'item_id' => 26,
+                'name' => 'Подарок',
+                'item_type' => 'gift',
+                'image' => 'klever.gif',
+                'sellable' => 0,
+                'stackable' => 0,
+            ],[
+                'item_id' => 10,
+                'name' => 'Эликсир жизни',
+                'item_type' => 'potion',
+                'image' => 'life_potion.jpg',
+                'sellable' => 1,
+                'stackable' => 1,
+            ],[
+                'item_id' => 27,
+                'name' => 'Ботинок',
+                'item_type' => 'trash',
+                'image' => 'fishboot.gif',
+                'sellable' => 0,
+                'stackable' => 1,
+            ],[
+                'item_id' => 29,
+                'name' => 'Копье ящера',
+                'item_type' => 'quest',
+                'image' => 'spear.jpg',
+                'sellable' => 0,
+                'stackable' => 1,
             ],
-		]);
+        ]);
 
 		DB::table('items')->insert([
 			[
 				'owner_id' => 1,
-				'item_id' => 1,
+				'item_id' => 20,
 			],[
 				'owner_id' => 1,
-				'item_id' => 2,
+				'item_id' => 21,
 			],[
 				'owner_id' => 1,
-				'item_id' => 3,
+				'item_id' => 22,
 			],[
 				'owner_id' => 1,
-				'item_id' => 4,
+				'item_id' => 23,
 			],[
 				'owner_id' => 1,
-				'item_id' => 5,
+				'item_id' => 24,
 			],[
 				'owner_id' => 1,
-				'item_id' => 6,
+				'item_id' => 25,
 			],[
 				'owner_id' => 1,
-				'item_id' => 9,
+				'item_id' => 26,
 			],[
 				'owner_id' => 1,
-				'item_id' => 10,
-			],[
-				'owner_id' => 1,
-				'item_id' => 11,
+				'item_id' => 27,
 			],
 		]);
+
+        DB::table('items')->insert([
+            [
+                'owner_id' => 1,
+                'item_id' => 10,
+                'count' => 3,
+            ]
+        ]);
 
 
         DB::table('npc')->insert([
@@ -410,9 +396,14 @@ class DatabaseSeeder extends Seeder
             ['npc_id' => 3,'loc_id' => 6],
         ]);
 
-        DB::table('quests')->insert([
-            ['id' => 1, 'name' => 'Нашествие ящеров', 'level' => 1, 'npc_id' => 5, 'data' => '{"steps":{"0":{"text":"Здравствуй, храбрый воин. Наш город поддался нашествию этих враждебных ящеров и нам нужна любая помощь в борьбе с ними. Присоединишься к борьбе?","answers":{"1":"Да, я постараюсь помочь с нашествием ящеров.","2":"Не сейчас"}},"1":{"text":"Это поднимает наш общий боевой дух. Принеси мне 5 пик этих злобных ящеров и я отблагодарю тебя."},"2":{"text":"Мы будем ждать твоей помощи, когда ты будешь готов."}},"do":{"text":"Ты еще не собрал 5 пик ящеров."},"done":{"text":"Ты славно дрался, воин. Ты заслужил награду. Возьми эти эликсиры жизни, пускай они тебе пригодятся в нелегком бою.","reward":[{"id":10,"count":2}]},"condition":{"done":{"id":12,"count":5}}}'],
-        ]);
+DB::table('quests')->insert([
+    ['id' => 1, 'name' => 'Нашествие ящеров', 'level' => 1, 'npc_id' => 5, 'data' => '{"steps":{"0":{"text":"Здравствуй, храбрый воин. Наш город поддался нашествию этих враждебных ящеров и нам нужна любая помощь в борьбе с ними. Присоединишься к борьбе?","answers":{"1":"Да, я постараюсь помочь с нашествием ящеров.","abort":"Не сейчас"}},"1":{"text":"Это поднимает наш общий боевой дух. Принеси мне 5 пик этих злобных ящеров и я отблагодарю тебя."},"abort":{"text":"Мы будем ждать твоей помощи, когда ты будешь готов."}},"do":{"text":"Ты еще не собрал 5 пик ящеров."},"done":{"text":"Ты славно дрался, воин. Ты заслужил награду. Возьми эти эликсиры жизни, пускай они тебе пригодятся в нелегком бою.","reward":[{"id":10,"count":2}]},"condition":{"done":{"id":12,"count":5}}}'],
+]);
+
+DB::table('drops')->insert([
+    ['npc_id' => 1,'item_id' => 1, 'min' => 2, 'max' => 5, 'chance' => 1000, 'category' => 0],
+    ['npc_id' => 1,'item_id' => 29, 'min' => 1, 'max' => 1, 'chance' => 1000, 'category' => 2],
+]);
     }
 }
 
