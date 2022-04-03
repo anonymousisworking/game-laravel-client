@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         require dirname(__DIR__) . '/functions.php';
-        \DB::enableQueryLog();
+        // \DB::enableQueryLog();
     }
 
     /**
